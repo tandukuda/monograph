@@ -51,10 +51,6 @@ Open [http://localhost:4321](http://localhost:4321)
 - Atkinson Hyperlegible Mono
 - Pure CSS (no frameworks)
 
-## License
-
-MIT — See [LICENSE](LICENSE)
-
 ---
 
 ## Benefits of This Approach
