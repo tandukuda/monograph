@@ -53,16 +53,6 @@ Open [http://localhost:4321](http://localhost:4321)
 
 ---
 
-## Benefits of This Approach
-
-**Self-documenting** — Users see features in context  
-**Lower maintenance** — One less file to keep in sync  
-**Better UX** — Interactive examples instead of text instructions  
-**Dogfooding** — Documentation uses the same system as real projects  
-**Discoverable** — New users explore by clicking, not reading  
-
----
-
 ## File Naming Convention
 
 Prefix with numbers so docs appear first in the index:
