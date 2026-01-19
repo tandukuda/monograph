@@ -1,12 +1,12 @@
 ---
-title: "SceneShift"
+title: "Project 2"
 type: "Tool"
 year: "2025"
 tags: ["cli", "go", "productivity"]
-link: "https://github.com/tandukuda/sceneshift"
-description: "A TUI app for managing workspace transitions."
+link: "https://github.com/tandukuda/monograph"
+description: "Lorem ipsum dolor sit amet."
 ---
-A terminal-based utility for managing context switching. It allows users to define "Scenes" which trigger specific application layouts, environment variables, and background processes.
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed libero sem, sodales viverra leo ut, aliquet euismod sapien. Duis faucibus pulvinar efficitur. Integer tortor nisl, aliquet id velit suscipit, rutrum aliquet urna. Phasellus nec pellentesque lacus, nec pharetra risus. Maecenas sed mollis tellus. Nunc at enim ut arcu auctor pretium. Maecenas convallis, arcu nec blandit malesuada, massa mi hendrerit tortor, a convallis tortor enim sed urna. Vivamus consectetur pulvinar turpis suscipit maximus. Phasellus suscipit diam ac elit posuere, finibus gravida nulla convallis
 
 <div class="gallery-wrapper">
   <button class="nav-btn prev" aria-label="Previous Slide">←</button>
@@ -18,8 +18,6 @@ A terminal-based utility for managing context switching. It allows users to defi
     <img src="/images/image 3.png" alt="Lorem ipsum" />
   </div>
 </div>
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed libero sem, sodales viverra leo ut, aliquet euismod sapien. Duis faucibus pulvinar efficitur. Integer tortor nisl, aliquet id velit suscipit, rutrum aliquet urna. Phasellus nec pellentesque lacus, nec pharetra risus. Maecenas sed mollis tellus. Nunc at enim ut arcu auctor pretium. Maecenas convallis, arcu nec blandit malesuada, massa mi hendrerit tortor, a convallis tortor enim sed urna. Vivamus consectetur pulvinar turpis suscipit maximus. Phasellus suscipit diam ac elit posuere, finibus gravida nulla convallis.
 
 Sed hendrerit semper orci, ut malesuada orci posuere non. Proin eleifend mauris nec ipsum feugiat commodo. Aenean placerat neque elit, ac efficitur tortor placerat quis. Donec placerat massa eu malesuada mattis. In eget feugiat metus. Morbi rhoncus efficitur neque, ut volutpat leo cursus sit amet. Cras sodales ut arcu a fermentum. Aenean vestibulum eu neque vel rutrum. Phasellus dignissim velit eget turpis placerat, eu tempus velit viverra. Phasellus vel ex tristique, ultrices lectus dictum, tincidunt diam.
 
