@@ -4,7 +4,7 @@ export default defineConfig({
   // Static site generation
   output: "static",
   build: {
-    format: "file",
+    format: "directory",
   },
   // Minimal optimizations
   compressHTML: true,
