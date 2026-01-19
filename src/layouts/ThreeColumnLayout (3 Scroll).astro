@@ -1,211 +1,258 @@
 ---
-import '../styles/global.css';
-import SearchInput from '../components/SearchInput.astro';
-import ProjectList from '../components/ProjectList.astro';
-import { getEntry } from 'astro:content';
+import "../styles/global.css";
+import SearchInput from "../components/SearchInput.astro";
+import ProjectList from "../components/ProjectList.astro";
+import { getEntry } from "astro:content";
 
 const { title } = Astro.props;
-const cv = await getEntry('pages', 'cv');
+const cv = await getEntry("pages", "cv");
 const { Content: CVContent } = await cv.render();
 
 const currentYear = new Date().getFullYear();
 const footerText = `©${currentYear} tandukuda | Materials belong to respective clients. Displayed for portfolio purposes.`;
 ---
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{title ? `${title} — Monograph` : 'Monograph'}</title>
-    <meta name="description" content="Index Portfolio" />
-  </head>
-  <body>
-    <main class="grid-container">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>{title ? `${title} — Monograph` : "Monograph"}</title>
+        <meta name="description" content="Index Portfolio" />
+    </head>
+    <body>
+        <main class="grid-container">
+            <aside class="col-left scroll-area">
+                <header class="site-header">
+                    <h1>
+                        <a href="/" style="text-decoration: none;">tandukuda</a>
+                    </h1>
+                </header>
 
-      <aside class="col-left scroll-area">
-        <header class="site-header">
-          <h1><a href="/" style="text-decoration: none;">tandukuda</a></h1>
-        </header>
+                <nav class="main-nav">
+                    <ul>
+                        <li><a href="/">index</a></li>
+                        <li><a href="/about">about</a></li>
+                        <li><a href="/links">others</a></li>
+                    </ul>
+                </nav>
 
-        <nav class="main-nav">
-          <ul>
-            <li><a href="/">index</a></li>
-            <li><a href="/about">about</a></li>
-            <li><a href="/links">Links</a></li>
-          </ul>
-        </nav>
+                <div class="index-section">
+                    <SearchInput />
+                    <ProjectList />
+                </div>
+            </aside>
 
-        <div class="index-section">
-          <SearchInput />
-          <ProjectList />
-        </div>
-      </aside>
+            <section class="col-middle scroll-area">
+                <slot />
+            </section>
 
-      <section class="col-middle scroll-area">
-        <slot />
-      </section>
+            <aside class="col-right scroll-area">
+                <div class="cv-content">
+                    <CVContent />
+                </div>
+            </aside>
 
-      <aside class="col-right scroll-area">
-        <div class="cv-content">
-          <CVContent />
-        </div>
-      </aside>
+            <footer class="site-footer">
+                <p>{footerText}</p>
+            </footer>
+        </main>
 
-      <footer class="site-footer">
-        <p>{footerText}</p>
-      </footer>
+        <script>
+            // 1. SEARCH LOGIC
+            const searchInput = document.getElementById("search");
+            const projectList = document.getElementById("project-list");
+            const noResults = document.getElementById("no-results");
 
-    </main>
-
-    <script>
-      // 1. SEARCH LOGIC
-      const searchInput = document.getElementById('search');
-      const projectList = document.getElementById('project-list');
-      const noResults = document.getElementById('no-results');
-
-      if (searchInput && projectList) {
-        const items = Array.from(projectList.getElementsByTagName('li'));
-        searchInput.addEventListener('input', (e) => {
-          const term = (e.target as HTMLInputElement).value.toLowerCase();
-          let visibleCount = 0;
-          items.forEach((item) => {
-            const title = item.getAttribute('data-title') || '';
-            const tags = item.getAttribute('data-tags') || '';
-            const year = item.getAttribute('data-year') || '';
-            if (title.includes(term) || tags.includes(term) || year.includes(term)) {
-              item.style.display = 'block';
-              visibleCount++;
-            } else {
-              item.style.display = 'none';
+            if (searchInput && projectList) {
+                const items = Array.from(
+                    projectList.getElementsByTagName("li"),
+                );
+                searchInput.addEventListener("input", (e) => {
+                    const term = (
+                        e.target as HTMLInputElement
+                    ).value.toLowerCase();
+                    let visibleCount = 0;
+                    items.forEach((item) => {
+                        const title = item.getAttribute("data-title") || "";
+                        const tags = item.getAttribute("data-tags") || "";
+                        const year = item.getAttribute("data-year") || "";
+                        if (
+                            title.includes(term) ||
+                            tags.includes(term) ||
+                            year.includes(term)
+                        ) {
+                            item.style.display = "block";
+                            visibleCount++;
+                        } else {
+                            item.style.display = "none";
+                        }
+                    });
+                    if (noResults)
+                        noResults.style.display =
+                            visibleCount === 0 ? "block" : "none";
+                });
             }
-          });
-          if (noResults) noResults.style.display = visibleCount === 0 ? 'block' : 'none';
-        });
-      }
 
-      // 2. GALLERY LOGIC
-      document.querySelectorAll('.gallery-wrapper').forEach(wrapper => {
-        const gallery = wrapper.querySelector('.gallery');
-        const prevBtn = wrapper.querySelector('.prev');
-        const nextBtn = wrapper.querySelector('.next');
-        if (!gallery || !prevBtn || !nextBtn) return;
-        const scrollAmount = () => gallery.clientWidth;
-        prevBtn.addEventListener('click', () => {
-          gallery.scrollBy({ left: -scrollAmount(), behavior: 'smooth' });
-        });
-        nextBtn.addEventListener('click', () => {
-          gallery.scrollBy({ left: scrollAmount(), behavior: 'smooth' });
-        });
-      });
-    </script>
+            // 2. GALLERY LOGIC
+            document.querySelectorAll(".gallery-wrapper").forEach((wrapper) => {
+                const gallery = wrapper.querySelector(".gallery");
+                const prevBtn = wrapper.querySelector(".prev");
+                const nextBtn = wrapper.querySelector(".next");
+                if (!gallery || !prevBtn || !nextBtn) return;
+                const scrollAmount = () => gallery.clientWidth;
+                prevBtn.addEventListener("click", () => {
+                    gallery.scrollBy({
+                        left: -scrollAmount(),
+                        behavior: "smooth",
+                    });
+                });
+                nextBtn.addEventListener("click", () => {
+                    gallery.scrollBy({
+                        left: scrollAmount(),
+                        behavior: "smooth",
+                    });
+                });
+            });
+        </script>
 
-    <style>
-      /* --- DESKTOP (Split Pane + Centered) --- */
-      @media (min-width: 1024px) {
-        :global(body) {
-          height: 100vh;
-          overflow: hidden;
-        }
+        <style>
+            /* --- DESKTOP (Split Pane + Centered) --- */
+            @media (min-width: 1024px) {
+                :global(body) {
+                    height: 100vh;
+                    overflow: hidden;
+                }
 
-        .grid-container {
-          display: grid;
-          height: 100vh;
-          max-width: 1600px;
-          margin: 0 auto;
-          padding: 4rem;
-          /* Reduced bottom padding to pull footer down */
-          padding-bottom: 0;
-          gap: 4rem;
-          grid-template-columns: 1fr 2fr 1fr;
+                .grid-container {
+                    display: grid;
+                    height: 100vh;
+                    max-width: 1600px;
+                    margin: 0 auto;
+                    padding: 4rem;
+                    /* Reduced bottom padding to pull footer down */
+                    padding-bottom: 0;
+                    gap: 4rem;
+                    grid-template-columns: 1fr 2fr 1fr;
 
-          /* IMPORTANT: Footer is now 'min-content' to be as short as possible */
-          grid-template-rows: 1fr min-content;
-        }
+                    /* IMPORTANT: Footer is now 'min-content' to be as short as possible */
+                    grid-template-rows: 1fr min-content;
+                }
 
-        .scroll-area {
-          overflow-y: auto;
-          height: 100%;
-          scrollbar-width: none;
-          padding-right: 1rem;
-        }
+                .scroll-area {
+                    overflow-y: auto;
+                    height: 100%;
+                    scrollbar-width: none;
+                    padding-right: 1rem;
+                }
 
-        .scroll-area::-webkit-scrollbar {
-          display: none;
-        }
+                .scroll-area::-webkit-scrollbar {
+                    display: none;
+                }
 
-        .site-footer {
-          grid-column: 1 / -1;
+                .site-footer {
+                    grid-column: 1 / -1;
 
-          /* UPDATED FOOTER SPACING */
-          padding: 1rem 0; /* Tight vertical padding, no horizontal needed here */
-          margin-top: 0;
-          border-top: 1px solid var(--border-color);
-        }
-      }
+                    /* UPDATED FOOTER SPACING */
+                    padding: 1rem 0; /* Tight vertical padding, no horizontal needed here */
+                    margin-top: 0;
+                    border-top: 1px solid var(--border-color);
+                }
+            }
 
-      /* --- MOBILE (Stacked) --- */
-      @media (max-width: 1023px) {
-        :global(body) {
-          height: auto;
-          overflow: auto;
-        }
+            /* --- MOBILE (Stacked) --- */
+            @media (max-width: 1023px) {
+                :global(body) {
+                    height: auto;
+                    overflow: auto;
+                }
 
-        .grid-container {
-          display: flex;
-          flex-direction: column;
-          padding: 1.5rem;
-          gap: 3rem;
-        }
+                .grid-container {
+                    display: flex;
+                    flex-direction: column;
+                    padding: 1.5rem;
+                    gap: 3rem;
+                }
 
-        .scroll-area {
-          height: auto;
-          overflow: visible;
-        }
+                .scroll-area {
+                    height: auto;
+                    overflow: visible;
+                }
 
-        .col-left { display: contents; }
-        .site-header { order: 1; margin-bottom: 2rem; display: block; }
-        .main-nav { order: 2; margin-bottom: 2rem; display: block; }
-        .col-middle { order: 3; }
-        .index-section { order: 4; margin-top: 4rem; border-top: 1px solid var(--border-color); padding-top: 2rem;}
-        .col-right { order: 5; margin-top: 2rem; border-top: 1px solid var(--border-color); padding-top: 2rem; }
-        .site-footer { order: 6; margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--border-color); }
-      }
+                .col-left {
+                    display: contents;
+                }
+                .site-header {
+                    order: 1;
+                    margin-bottom: 2rem;
+                    display: block;
+                }
+                .main-nav {
+                    order: 2;
+                    margin-bottom: 2rem;
+                    display: block;
+                }
+                .col-middle {
+                    order: 3;
+                }
+                .index-section {
+                    order: 4;
+                    margin-top: 4rem;
+                    border-top: 1px solid var(--border-color);
+                    padding-top: 2rem;
+                }
+                .col-right {
+                    order: 5;
+                    margin-top: 2rem;
+                    border-top: 1px solid var(--border-color);
+                    padding-top: 2rem;
+                }
+                .site-footer {
+                    order: 6;
+                    margin-top: 4rem;
+                    padding-top: 2rem;
+                    border-top: 1px solid var(--border-color);
+                }
+            }
 
-      /* --- GLOBAL TYPOGRAPHY --- */
-      .main-nav ul {
-        display: flex;
-        gap: 1.5rem;
-        margin-bottom: 3rem;
-      }
+            /* --- GLOBAL TYPOGRAPHY --- */
+            .main-nav ul {
+                display: flex;
+                gap: 1.5rem;
+                margin-bottom: 3rem;
+            }
 
-      .main-nav a { text-decoration: none; }
-      .main-nav a:hover { font-weight: 700; }
+            .main-nav a {
+                text-decoration: none;
+            }
+            .main-nav a:hover {
+                font-weight: 700;
+            }
 
-      .cv-content :global(h2) {
-        font-size: 0.875rem;
-        margin-top: 2rem;
-        margin-bottom: 0.5rem;
-        color: var(--text-secondary);
-      }
+            .cv-content :global(h2) {
+                font-size: 0.875rem;
+                margin-top: 2rem;
+                margin-bottom: 0.5rem;
+                color: var(--text-secondary);
+            }
 
-      .cv-content :global(p) {
-        font-size: 0.875rem;
-        margin-bottom: 1rem;
-      }
+            .cv-content :global(p) {
+                font-size: 0.875rem;
+                margin-bottom: 1rem;
+            }
 
-      /* FOOTER TEXT STYLE */
-      .site-footer p {
-        margin: 1; /* Critical: Removes default paragraph height */
-      }
+            /* FOOTER TEXT STYLE */
+            .site-footer p {
+                margin: 1; /* Critical: Removes default paragraph height */
+            }
 
-      .site-footer {
-        font-size: 0.75rem;
-        color: var(--text-secondary);
-        font-family: var(--font-main);
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-      }
-    </style>
-  </body>
+            .site-footer {
+                font-size: 0.75rem;
+                color: var(--text-secondary);
+                font-family: var(--font-main);
+                text-transform: uppercase;
+                letter-spacing: 0.05em;
+            }
+        </style>
+    </body>
 </html>

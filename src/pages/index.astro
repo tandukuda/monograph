@@ -1,112 +1,118 @@
 ---
-import ThreeColumnLayout from '../layouts/ThreeColumnLayout.astro';
-import { getEntry, getCollection } from 'astro:content';
+import ThreeColumnLayout from "../layouts/ThreeColumnLayout.astro";
+import { getEntry, getCollection } from "astro:content";
 
 // 1. Fetch Home Page Content
-// const homeEntry = await getEntry('pages', 'home');
-// const { Content } = await homeEntry.render();
+const homeEntry = await getEntry("pages", "home");
+const { Content } = await homeEntry.render();
 
 // 2. Fetch and Sort Projects (New Logic)
-const projects = (await getCollection('projects')).sort((a, b) =>
-  parseInt(b.data.year.toString()) - parseInt(a.data.year.toString())
+const projects = (await getCollection("projects")).sort(
+    (a, b) =>
+        parseInt(b.data.year.toString()) - parseInt(a.data.year.toString()),
 );
 ---
 
 <ThreeColumnLayout title="Home">
     <!-- Uncomment if you want to display the home page content -->
-    <!--article class="intro-text">
-    <Content />
-  </article -->
+    <article class="intro-text">
+        <Content />
+    </article>
 
-  <section class="project-feed">
-    <header class="feed-header">
-      <h2>Index</h2>
-    </header>
+    <section class="project-feed">
+        <header class="feed-header">
+            <h2>Index</h2>
+        </header>
 
-    <ul class="feed-list">
-      {projects.map((project) => (
-        <li class="feed-item">
-          <a href={`/project/${project.slug}`} class="feed-link">
-            <div class="feed-head">
-              <span class="title">{project.data.title}</span>
-              <span class="meta">{project.data.type}, {project.data.year}</span>
-            </div>
+        <ul class="feed-list">
+            {
+                projects.map((project) => (
+                    <li class="feed-item">
+                        <a href={`/project/${project.slug}`} class="feed-link">
+                            <div class="feed-head">
+                                <span class="title">{project.data.title}</span>
+                                <span class="meta">
+                                    {project.data.type}, {project.data.year}
+                                </span>
+                            </div>
 
-            {project.data.description && (
-              <p class="description">{project.data.description}</p>
-            )}
-          </a>
-        </li>
-      ))}
-    </ul>
-  </section>
+                            {project.data.description && (
+                                <p class="description">
+                                    {project.data.description}
+                                </p>
+                            )}
+                        </a>
+                    </li>
+                ))
+            }
+        </ul>
+    </section>
 </ThreeColumnLayout>
 
 <style>
-  .intro-text {
-    margin-bottom: 4rem;
-  }
+    .intro-text {
+        margin-bottom: 4rem;
+    }
 
-  /* FEED STYLES */
-  .project-feed {
-    /* border-top: 1px solid var(--border-color); */
-    /* Change padding-top to 2rem when enabling "home bio" */
-    padding-top: 0rem;
-  }
+    /* FEED STYLES */
+    .project-feed {
+        /* Change padding-top to 1rem when enabling "home bio" */
+        padding-top: 1rem;
+    }
 
-  .feed-header h2 {
-    font-size: 0.875rem;
-    color: var(--text-secondary);
-    margin-bottom: 2rem;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-  }
+    .feed-header h2 {
+        font-size: 0.875rem;
+        color: var(--text-secondary);
+        margin-bottom: 2rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+    }
 
-  .feed-list {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-  }
+    .feed-list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
 
-  .feed-item {
-    margin-bottom: 2rem; /* Breathing room between items */
-  }
+    .feed-item {
+        margin-bottom: 2rem; /* Breathing room between items */
+    }
 
-  .feed-link {
-    text-decoration: none;
-    display: block;
-    group: hover;
-  }
+    .feed-link {
+        text-decoration: none;
+        display: block;
+        group: hover;
+    }
 
-  .feed-head {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    margin-bottom: 0.5rem;
-    border-bottom: 1px solid transparent; /* Prepare for hover */
-    transition: border-color 0.2s;
-  }
+    .feed-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        margin-bottom: 0.5rem;
+        border-bottom: 1px solid transparent; /* Prepare for hover */
+        transition: border-color 0.2s;
+    }
 
-  .feed-link:hover .feed-head {
-    border-bottom: 1px solid var(--text-primary);
-  }
+    .feed-link:hover .feed-head {
+        border-bottom: 1px solid var(--text-primary);
+    }
 
-  .title {
-    font-weight: 700;
-    font-size: 1.125rem;
-  }
+    .title {
+        font-weight: 700;
+        font-size: 1.125rem;
+    }
 
-  .meta {
-    font-size: 0.875rem;
-    color: var(--text-secondary);
-    font-family: var(--font-main);
-  }
+    .meta {
+        font-size: 0.875rem;
+        color: var(--text-secondary);
+        font-family: var(--font-main);
+    }
 
-  .description {
-    color: var(--text-secondary);
-    font-size: 1rem;
-    margin: 0;
-    max-width: 55ch; /* Optimal reading length */
-    line-height: 1.5;
-  }
+    .description {
+        color: var(--text-secondary);
+        font-size: 1rem;
+        margin: 0;
+        max-width: 55ch; /* Optimal reading length */
+        line-height: 1.5;
+    }
 </style>

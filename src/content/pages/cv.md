@@ -3,12 +3,12 @@ title: "CV"
 ---
 ## Experience
 
-**Senior Frontend Engineer** *TechCorp Inc.* 2022 — Present  
+**Your Position 1** *Name Corp.* 2022 — Present  
 Leading design system architecture.
 
-**Interface Designer** *Studio Null* 2019 — 2022  
-Editorial design and web development.
+**Your Position 2** *Name Corp.* 2018 — 2022  
+Leading design system architecture.
 
 ## Connect
-[GitHub](https://github.com)  
+[GitHub](https://github.com/tandukuda/monograph)  
 [Email](mailto:hello@example.com)
