@@ -5,7 +5,7 @@ const projects = defineCollection({
   schema: z.object({
     title: z.string(),
     type: z.string(),
-    year: z.string().or(z.number()),
+    year: z.coerce.number(), // Always converts to number
     tags: z.array(z.string()).optional(),
     link: z.string().url().optional(),
     // 'description' is used for search indexing
