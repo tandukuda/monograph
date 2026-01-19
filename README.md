@@ -4,7 +4,7 @@
 
 It is designed to be readable, durable, and resistant to trend decay. It features a strict three-column layout, file-based content management, and zero-runtime JavaScript (except where strictly necessary for **Search**).
 
-![Monograph Preview](./public/preview.png)
+![Monograph Preview](./assets/preview.png)
 
 ---
 
