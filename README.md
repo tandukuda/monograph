@@ -53,21 +53,6 @@ Open [http://localhost:4321](http://localhost:4321)
 
 ---
 
-## File Naming Convention
-
-Prefix with numbers so docs appear first in the index:
-```
-src/content/projects/
-├── 01-welcome.md
-├── 02-adding-projects.md
-├── 03-image-galleries.md
-├── 04-customization.md
-├── 05-deployment.md
-└── [user deletes these before deploying]
-```
-
----
-
 ## Support the Project
 
 If Monograph is part of your workflow, sponsorship helps keep it **fast, safe, and maintained**.
