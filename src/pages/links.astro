@@ -1,0 +1,13 @@
+---
+import ThreeColumnLayout from '../layouts/ThreeColumnLayout.astro';
+import { getEntry } from 'astro:content';
+
+const linksEntry = await getEntry('pages', 'links');
+const { Content } = await linksEntry.render();
+---
+
+<ThreeColumnLayout title="Links">
+  <article>
+    <Content />
+  </article>
+</ThreeColumnLayout>

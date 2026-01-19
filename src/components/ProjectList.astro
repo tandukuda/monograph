@@ -1,0 +1,48 @@
+---
+import { getCollection } from 'astro:content';
+
+// Sort by year descending
+const projects = (await getCollection('projects')).sort((a, b) =>
+  parseInt(b.data.year.toString()) - parseInt(a.data.year.toString())
+);
+---
+
+<nav class="project-index" aria-label="Project Index">
+  <ul id="project-list">
+    {projects.map((project) => (
+      <li
+        class="project-item"
+        data-title={project.data.title.toLowerCase()}
+        data-tags={project.data.tags?.join(' ') || ''}
+        data-year={project.data.year}
+      >
+        <a href={`/project/${project.slug}`} class="project-link">
+          <span class="project-title">{project.data.title}</span>
+          <span class="project-meta">{project.data.type}, {project.data.year}</span>
+        </a>
+      </li>
+    ))}
+  </ul>
+  <div id="no-results" class="meta" style="display: none;">No entries found.</div>
+</nav>
+
+<style>
+  .project-item {
+    margin-bottom: 0.75rem;
+  }
+
+  .project-link {
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .project-link:hover .project-title {
+    text-decoration: underline;
+  }
+
+  .project-meta {
+    color: var(--text-secondary);
+    font-size: 0.75rem;
+  }
+</style>

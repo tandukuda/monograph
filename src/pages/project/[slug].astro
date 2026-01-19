@@ -1,0 +1,69 @@
+---
+import { getCollection } from 'astro:content';
+import ThreeColumnLayout from '../../layouts/ThreeColumnLayout.astro';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects');
+  return projects.map(entry => ({
+    params: { slug: entry.slug },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await entry.render();
+---
+
+<ThreeColumnLayout title={entry.data.title}>
+  <article class="project-detail">
+    <header class="project-header">
+      <h1>{entry.data.title}</h1>
+
+      <dl class="project-metadata">
+        <div>
+          <dt>Type</dt>
+          <dd>{entry.data.type}</dd>
+        </div>
+        <div>
+          <dt>Year</dt>
+          <dd>{entry.data.year}</dd>
+        </div>
+        {entry.data.link && (
+          <div>
+            <dt>Link</dt>
+            <dd><a href={entry.data.link} target="_blank" rel="noopener noreferrer">External ↗</a></dd>
+          </div>
+        )}
+      </dl>
+    </header>
+
+    <div class="project-body">
+      <Content />
+    </div>
+  </article>
+</ThreeColumnLayout>
+
+<style>
+  .project-header {
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .project-metadata {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 1rem;
+    margin-top: 2rem;
+    font-size: 0.875rem;
+  }
+
+  dt {
+    color: var(--text-secondary);
+    margin-bottom: 0.25rem;
+  }
+
+  .project-body {
+    margin-top: 2rem;
+  }
+</style>

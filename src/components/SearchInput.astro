@@ -1,0 +1,33 @@
+---
+// Pure UI component. Logic lives in the page script.
+---
+<div class="search-container">
+  <label for="search" class="sr-only">Search projects</label>
+  <input
+    type="text"
+    id="search"
+    placeholder="SEARCH INDEX..."
+    autocomplete="off"
+  />
+</div>
+
+<style>
+  .search-container {
+    margin-bottom: 2rem;
+  }
+
+  input {
+    width: 100%;
+    background: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    font-family: var(--font-main);
+    padding: 0.5rem;
+    font-size: 0.875rem;
+    border-radius: 0; /* Brutalist */
+  }
+
+  input:focus {
+    outline: 1px solid var(--text-primary);
+  }
+</style>

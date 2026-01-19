@@ -1,0 +1,208 @@
+---
+import '../styles/global.css';
+import SearchInput from '../components/SearchInput.astro';
+import ProjectList from '../components/ProjectList.astro';
+import { getEntry } from 'astro:content';
+
+// --- CONFIGURATION ---
+const SHOW_SEARCH = false; // Set to true to enable, false to disable
+// ---------------------
+
+const { title } = Astro.props;
+const cv = await getEntry('pages', 'cv');
+const { Content: CVContent } = await cv.render();
+
+const currentYear = new Date().getFullYear();
+const footerText = `©${currentYear} tandukuda | Materials belong to respective clients. Displayed for portfolio purposes.`;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title ? `${title} — Monograph` : 'Monograph'}</title>
+    <meta name="description" content="Index Portfolio" />
+  </head>
+  <body>
+    <main class="grid-container">
+
+      <aside class="col-left scroll-area">
+        <header class="site-header">
+          <h1><a href="/" style="text-decoration: none;">tandukuda</a></h1>
+        </header>
+
+        <nav class="main-nav">
+          <ul>
+            <li><a href="/">index</a></li>
+            <li><a href="/about">about</a></li>
+            <li><a href="/links">others</a></li>
+          </ul>
+        </nav>
+
+        <div class="index-section">
+            {SHOW_SEARCH && <SearchInput />}
+              <ProjectList />
+        </div>
+      </aside>
+
+      <section class="col-middle">
+        <slot />
+      </section>
+
+      <aside class="col-right">
+        <div class="cv-content">
+          <CVContent />
+        </div>
+      </aside>
+
+      <footer class="site-footer">
+        <p>{footerText}</p>
+      </footer>
+
+    </main>
+
+    <script>
+      // 1. SEARCH LOGIC
+      const searchInput = document.getElementById('search');
+      const projectList = document.getElementById('project-list');
+      const noResults = document.getElementById('no-results');
+
+      if (searchInput && projectList) {
+        const items = Array.from(projectList.getElementsByTagName('li'));
+        searchInput.addEventListener('input', (e) => {
+          const term = (e.target as HTMLInputElement).value.toLowerCase();
+          let visibleCount = 0;
+          items.forEach((item) => {
+            const title = item.getAttribute('data-title') || '';
+            const tags = item.getAttribute('data-tags') || '';
+            const year = item.getAttribute('data-year') || '';
+            if (title.includes(term) || tags.includes(term) || year.includes(term)) {
+              item.style.display = 'block';
+              visibleCount++;
+            } else {
+              item.style.display = 'none';
+            }
+          });
+          if (noResults) noResults.style.display = visibleCount === 0 ? 'block' : 'none';
+        });
+      }
+
+      // 2. GALLERY LOGIC
+      document.querySelectorAll('.gallery-wrapper').forEach(wrapper => {
+        const gallery = wrapper.querySelector('.gallery');
+        const prevBtn = wrapper.querySelector('.prev');
+        const nextBtn = wrapper.querySelector('.next');
+        if (!gallery || !prevBtn || !nextBtn) return;
+        const scrollAmount = () => gallery.clientWidth;
+        prevBtn.addEventListener('click', () => {
+          gallery.scrollBy({ left: -scrollAmount(), behavior: 'smooth' });
+        });
+        nextBtn.addEventListener('click', () => {
+          gallery.scrollBy({ left: scrollAmount(), behavior: 'smooth' });
+        });
+      });
+    </script>
+
+    <style>
+      /* --- DESKTOP (Standard Sticky Layout) --- */
+      @media (min-width: 1024px) {
+        .grid-container {
+          display: grid;
+          min-height: 100vh;
+          max-width: 1600px;
+          margin: 0 auto;
+          padding: 4rem;
+          padding-bottom: 0;
+          gap: 4rem;
+          grid-template-columns: 1fr 2fr 1fr;
+
+          /* FIX: This forces the footer to the bottom */
+          grid-template-rows: 1fr auto;
+
+          align-items: start;
+        }
+
+        /* STICKY SIDEBARS */
+        .col-left, .col-right {
+          position: sticky;
+          top: 4rem;
+          height: fit-content;
+          max-height: calc(100vh - 8rem);
+          overflow-y: auto;
+          scrollbar-width: none;
+        }
+
+        .col-left::-webkit-scrollbar, .col-right::-webkit-scrollbar {
+          display: none;
+        }
+
+        /* FOOTER POSITIONING */
+        .site-footer {
+          grid-column: 1 / -1;
+          margin-top: 4rem;
+          padding: 1rem 0;
+          border-top: 1px solid var(--border-color);
+
+          /* Ensure it doesn't overlap sticky content */
+          position: relative;
+          z-index: 10;
+          background-color: var(--bg-color);
+        }
+      }
+
+      /* --- MOBILE (Stacked) --- */
+      @media (max-width: 1023px) {
+        .grid-container {
+          display: flex;
+          flex-direction: column;
+          padding: 1.5rem;
+          gap: 3rem;
+          min-height: 100vh; /* Ensure full height on mobile too */
+        }
+
+        /* Mobile Order */
+        .col-left { display: contents; }
+        .site-header { order: 1; margin-bottom: 2rem; display: block; }
+        .main-nav { order: 2; margin-bottom: 2rem; display: block; }
+        .col-middle { order: 3; flex: 1; /* Push footer down on mobile */ }
+        .index-section { order: 4; margin-top: 4rem; border-top: 1px solid var(--border-color); padding-top: 2rem;}
+        .col-right { order: 5; margin-top: 2rem; border-top: 1px solid var(--border-color); padding-top: 2rem; }
+        .site-footer { order: 6; margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--border-color); }
+      }
+
+      /* --- GLOBAL TYPOGRAPHY --- */
+      .main-nav ul {
+        display: flex;
+        gap: 1.5rem;
+        margin-bottom: 3rem;
+      }
+
+      .main-nav a { text-decoration: none; }
+      .main-nav a:hover { font-weight: 700; }
+
+      .cv-content :global(h2) {
+        font-size: 0.875rem;
+        margin-top: 2rem;
+        margin-bottom: 0.5rem;
+        color: var(--text-secondary);
+      }
+
+      .cv-content :global(p) {
+        font-size: 0.875rem;
+        margin-bottom: 1rem;
+      }
+
+      /* FOOTER TEXT STYLE */
+      .site-footer p { margin: 1; }
+
+      .site-footer {
+        font-size: 0.75rem;
+        color: var(--text-secondary);
+        font-family: var(--font-main);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+    </style>
+  </body>
+</html>
