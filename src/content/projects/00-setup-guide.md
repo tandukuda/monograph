@@ -10,6 +10,8 @@ description: "Essential setup steps for customizing your Monograph portfolio"
 
 Welcome! This guide will walk you through customizing Monograph for your portfolio, including the latest image optimization and configuration features.
 
+**For a comprehensive pre-deployment checklist, see [SETUP.md](https://github.com/tandukuda/monograph/blob/main/SETUP.md)** - it covers everything from essential configuration to performance optimization and final testing steps.
+
 ## Quick Setup (5 minutes)
 
 ### 1. Site Configuration
@@ -237,6 +239,9 @@ src/
 
 ## Before You Deploy
 
+**Complete Checklist:** For a thorough pre-deployment checklist with all the essential steps, see [SETUP.md](https://github.com/tandukuda/monograph/blob/main/SETUP.md).
+
+**Quick essentials:**
 1. **Update site configuration** - Don't forget `src/config/site.ts`!
 2. **Delete documentation projects** - Remove all `00-`, `01-`, etc. files
 3. **Add your OG image** - Create `/public/og-image.png` (1200x630px)

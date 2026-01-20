@@ -11,6 +11,8 @@ It is designed to be readable, durable, and resistant to trend decay. It feature
 ## Quick Deploy
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/tandukuda/monograph)
 
+**Before deploying:** Complete the [Setup Checklist](SETUP.md) to ensure your portfolio is properly configured with your information and optimized for performance.
+
 ## Manual Setup
 ### 1. Clone the repo
 ```bash
@@ -60,10 +62,12 @@ Open [http://localhost:4321](http://localhost:4321)
 - **Customization Guide** — Toggles & config
 - **Deployment** — Going live
 
-**Before deploying:** 
+**Before deploying:** Follow the complete [Setup Checklist](SETUP.md) which includes:
 1. Delete the documentation projects (files starting with `00-`, `01-`, etc.)
 2. Update your site configuration in `src/config/site.ts`
 3. Replace demo content in `src/content/pages/` with your own
+4. Configure images and optimize performance
+5. Test all features and verify SEO settings
 
 ## Features
 

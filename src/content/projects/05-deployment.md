@@ -92,6 +92,10 @@ After deployment with your custom domain:
 
 ## Pre-Deployment Checklist
 
+**Complete Checklist:** For a comprehensive pre-deployment checklist with detailed steps and validation, see [SETUP.md](https://github.com/tandukuda/monograph/blob/main/SETUP.md).
+
+**Essential quick checks:**
+
 ### Essential Configuration
 - [ ] **Configure site settings** - Update `src/config/site.ts` with your information
 - [ ] **Delete documentation projects** - Remove files starting with `00-`, `01-`, etc.
