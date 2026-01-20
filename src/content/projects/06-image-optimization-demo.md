@@ -131,16 +131,16 @@ Here's a working gallery you can interact with right now (using the original HTM
 ## Real Performance Impact
 
 **Traditional images:**
-- 📁 Average file size: 1.5MB
-- ⏱️ Load time: 3-5 seconds
-- 📱 Mobile data usage: High
-- 🔄 Layout shift: Common
+- Average file size: 1.5MB
+- Load time: 3-5 seconds
+- Mobile data usage: High
+- Layout shift: Common
 
 **Optimized images:**
-- 📁 Average file size: 200-400KB (60-75% reduction)
-- ⏱️ Load time: 0.5-1 second
-- 📱 Mobile data usage: Minimal
-- 🔄 Layout shift: None (explicit dimensions)
+- Average file size: 200-400KB (60-75% reduction)
+- Load time: 0.5-1 second
+- Mobile data usage: Minimal
+- Layout shift: None (explicit dimensions)
 
 ## Browser Support
 
@@ -230,9 +230,9 @@ Optimized images include proper markup for search engines and screen readers:
 ```
 
 This provides:
-- ✅ Proper semantic structure for search engines
-- ✅ Multiple format options for performance
-- ✅ Descriptive alt text for accessibility
-- ✅ Structured data ready for rich snippets
+- Proper semantic structure for search engines
+- Multiple format options for performance
+- Descriptive alt text for accessibility
+- Structured data ready for rich snippets
 
 The image optimization system ensures your portfolio loads fast while maintaining professional image quality across all devices and browsers!
