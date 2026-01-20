@@ -7,9 +7,8 @@ const homeEntry = await getEntry("pages", "home");
 const { Content } = await homeEntry.render();
 
 // 2. Fetch and Sort Projects (New Logic)
-const projects = (await getCollection("projects")).sort(
-    (a, b) =>
-        parseInt(b.data.year.toString()) - parseInt(a.data.year.toString()),
+const projects = (await getCollection('projects')).sort((a, b) =>
+  a.slug.localeCompare(b.slug)
 );
 ---
 

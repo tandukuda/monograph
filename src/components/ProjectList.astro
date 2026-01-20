@@ -1,9 +1,8 @@
 ---
 import { getCollection } from 'astro:content';
 
-// Sort by year descending
 const projects = (await getCollection('projects')).sort((a, b) =>
-  parseInt(b.data.year.toString()) - parseInt(a.data.year.toString())
+  a.slug.localeCompare(b.slug)
 );
 ---
 
