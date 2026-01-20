@@ -4,6 +4,8 @@ type: "Example"
 year: "2026"
 tags: ["demo", "images", "performance"]
 description: "Live demonstration of optimized images and galleries"
+medium: ["blog"]
+role: ["Developer"]
 ---
 
 # Image Optimization Demo

@@ -4,6 +4,8 @@ type: "Documentation"
 year: 2024
 tags: ["guide", "images", "optimization"]
 description: "How to add optimized image galleries with lazy loading and responsive images"
+medium: ["docs"]
+role: ["Developer"]
 ---
 
 # Optimized Image Galleries

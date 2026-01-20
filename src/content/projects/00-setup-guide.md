@@ -4,6 +4,8 @@ type: "Documentation"
 year: "2026"
 tags: ["setup", "configuration", "getting-started"]
 description: "Essential setup steps for customizing your Monograph portfolio"
+medium: ["docs"]
+role: ["Developer"]
 ---
 
 # Setup Guide

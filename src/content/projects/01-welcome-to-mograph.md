@@ -5,6 +5,8 @@ year: "2026"
 tags: ["guide", "setup"]
 link: "https://github.com/tandukuda/monograph"
 description: "Getting started with your Monograph portfolio"
+medium: ["docs"]
+role: ["Developer"]
 ---
 
 # Welcome to Monograph

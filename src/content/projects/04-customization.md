@@ -4,6 +4,8 @@ type: "Documentation"
 year: "2026"
 tags: ["guide", "config"]
 description: "Toggle features and customize Monograph"
+medium: ["docs"]
+role: ["Developer"]
 ---
 
 # Customization Guide

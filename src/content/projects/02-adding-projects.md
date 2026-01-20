@@ -4,6 +4,8 @@ type: "Documentation"
 year: "2026"
 tags: ["guide", "content"]
 description: "How to add and structure your portfolio projects"
+medium: ["docs"]
+role: ["Developer"]
 ---
 
 # Adding Projects

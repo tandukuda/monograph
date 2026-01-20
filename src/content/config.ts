@@ -5,11 +5,12 @@ const projects = defineCollection({
   schema: z.object({
     title: z.string(),
     type: z.string(),
-    year: z.coerce.number(), // Always converts to number
+    year: z.string().or(z.number()),
     tags: z.array(z.string()).optional(),
     link: z.string().url().optional(),
-    // 'description' is used for search indexing
     description: z.string().optional(),
+    medium: z.array(z.string()),
+    role: z.array(z.string()),
   }),
 });
 

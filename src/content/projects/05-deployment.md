@@ -4,6 +4,8 @@ type: "Documentation"
 year: "2026"
 tags: ["guide", "hosting"]
 description: "How to deploy Monograph to production"
+medium: ["docs"]
+role: ["Developer"]
 ---
 
 # Deployment
