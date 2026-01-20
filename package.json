@@ -2,6 +2,30 @@
   "name": "monograph",
   "type": "module",
   "version": "1.0.0",
+  "description": "A minimalist, editorial index-style portfolio built with Astro. Features image optimization, responsive galleries, centralized configuration, and performance-first architecture.",
+  "keywords": [
+    "astro",
+    "portfolio",
+    "static-site",
+    "image-optimization",
+    "responsive-images",
+    "webp",
+    "avif",
+    "performance",
+    "accessibility",
+    "seo",
+    "typescript",
+    "gallery",
+    "lazy-loading",
+    "core-web-vitals"
+  ],
+  "author": "tandukuda",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tandukuda/monograph.git"
+  },
+  "homepage": "https://monograph.vercel.app",
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
@@ -10,5 +34,8 @@
   },
   "dependencies": {
     "astro": "^5.16.11"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   }
 }

@@ -1,0 +1,357 @@
+---
+import OptimizedImage from './OptimizedImage.astro';
+
+export interface Props {
+  images: {
+    src: string;
+    alt: string;
+    caption?: string;
+    width?: number;
+    height?: number;
+  }[];
+  height?: string;
+  loading?: 'lazy' | 'eager';
+  quality?: number;
+  class?: string;
+}
+
+const {
+  images,
+  height = '500px',
+  loading = 'lazy',
+  quality = 85,
+  class: className = '',
+} = Astro.props;
+
+// Generate unique ID for this gallery instance
+const galleryId = `gallery-${Math.random().toString(36).substr(2, 9)}`;
+---
+
+<div class={`gallery-wrapper ${className}`}>
+  <div class="gallery" id={galleryId} style={`height: ${height}`}>
+    {images.map((image, index) => (
+      <OptimizedImage
+        src={image.src}
+        alt={image.alt}
+        caption={image.caption}
+        width={image.width || 1200}
+        height={image.height}
+        loading={index === 0 ? 'eager' : loading}
+        quality={quality}
+        sizes="100vw"
+        widths={[600, 900, 1200, 1600]}
+        class="gallery-image"
+      />
+    ))}
+  </div>
+
+  <!-- Navigation buttons -->
+  <button class="nav-btn prev" type="button" aria-label="Previous image">
+    ‹
+  </button>
+  <button class="nav-btn next" type="button" aria-label="Next image">
+    ›
+  </button>
+
+  <!-- Image counter -->
+  <div class="gallery-counter">
+    <span class="current">1</span>
+    <span class="separator">/</span>
+    <span class="total">{images.length}</span>
+  </div>
+</div>
+
+<script define:vars={{ galleryId }}>
+  // Gallery functionality
+  const wrapper = document.getElementById(galleryId)?.parentElement;
+  if (wrapper) {
+    const gallery = wrapper.querySelector('.gallery');
+    const prevBtn = wrapper.querySelector('.prev');
+    const nextBtn = wrapper.querySelector('.next');
+    const counter = wrapper.querySelector('.gallery-counter');
+    const currentSpan = counter?.querySelector('.current');
+    const totalSpan = counter?.querySelector('.total');
+
+    if (gallery && prevBtn && nextBtn) {
+      let currentIndex = 0;
+      const images = gallery.querySelectorAll('.image-figure');
+      const totalImages = images.length;
+
+      // Update counter
+      const updateCounter = () => {
+        if (currentSpan) currentSpan.textContent = (currentIndex + 1).toString();
+      };
+
+      // Scroll to specific image
+      const scrollToImage = (index) => {
+        const imageWidth = gallery.clientWidth;
+        gallery.scrollTo({
+          left: index * imageWidth,
+          behavior: 'smooth'
+        });
+        currentIndex = index;
+        updateCounter();
+      };
+
+      // Previous button
+      prevBtn.addEventListener('click', () => {
+        const newIndex = currentIndex > 0 ? currentIndex - 1 : totalImages - 1;
+        scrollToImage(newIndex);
+      });
+
+      // Next button
+      nextBtn.addEventListener('click', () => {
+        const newIndex = currentIndex < totalImages - 1 ? currentIndex + 1 : 0;
+        scrollToImage(newIndex);
+      });
+
+      // Keyboard navigation
+      document.addEventListener('keydown', (e) => {
+        if (wrapper.matches(':hover') || wrapper.contains(document.activeElement)) {
+          if (e.key === 'ArrowLeft') {
+            e.preventDefault();
+            prevBtn.click();
+          } else if (e.key === 'ArrowRight') {
+            e.preventDefault();
+            nextBtn.click();
+          }
+        }
+      });
+
+      // Touch/swipe support
+      let startX = 0;
+      let scrollLeft = 0;
+      let isDown = false;
+
+      gallery.addEventListener('mousedown', (e) => {
+        isDown = true;
+        startX = e.pageX - gallery.offsetLeft;
+        scrollLeft = gallery.scrollLeft;
+        gallery.style.cursor = 'grabbing';
+      });
+
+      gallery.addEventListener('mouseleave', () => {
+        isDown = false;
+        gallery.style.cursor = 'grab';
+      });
+
+      gallery.addEventListener('mouseup', () => {
+        isDown = false;
+        gallery.style.cursor = 'grab';
+      });
+
+      gallery.addEventListener('mousemove', (e) => {
+        if (!isDown) return;
+        e.preventDefault();
+        const x = e.pageX - gallery.offsetLeft;
+        const walk = (x - startX) * 2;
+        gallery.scrollLeft = scrollLeft - walk;
+      });
+
+      // Update counter on scroll
+      gallery.addEventListener('scroll', () => {
+        const scrollPosition = gallery.scrollLeft;
+        const imageWidth = gallery.clientWidth;
+        const newIndex = Math.round(scrollPosition / imageWidth);
+        if (newIndex !== currentIndex) {
+          currentIndex = Math.max(0, Math.min(newIndex, totalImages - 1));
+          updateCounter();
+        }
+      });
+
+      // Initialize
+      updateCounter();
+      gallery.style.cursor = 'grab';
+    }
+  }
+</script>
+
+<style>
+  .gallery-wrapper {
+    position: relative;
+    margin: 2rem 0;
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-color);
+    overflow: hidden;
+  }
+
+  .gallery {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    height: 500px;
+  }
+
+  .gallery::-webkit-scrollbar {
+    display: none;
+  }
+
+  .gallery :global(.image-figure) {
+    flex: 0 0 100%;
+    width: 100%;
+    height: 100%;
+    scroll-snap-align: center;
+    margin: 0;
+    border: none;
+    position: relative;
+  }
+
+  .gallery :global(.optimized-image) {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    background-color: var(--bg-color);
+  }
+
+  /* Navigation buttons */
+  .nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.5);
+    border: none;
+    color: white;
+    font-family: var(--font-main);
+    font-size: 2rem;
+    font-weight: 300;
+    cursor: pointer;
+    padding: 1rem;
+    z-index: 10;
+    opacity: 0.7;
+    transition: all 0.2s ease;
+    outline: none;
+    user-select: none;
+    backdrop-filter: blur(4px);
+  }
+
+  .nav-btn:hover {
+    opacity: 1;
+    background: rgba(0, 0, 0, 0.7);
+  }
+
+  .nav-btn:focus-visible {
+    opacity: 1;
+    outline: 2px solid var(--text-primary);
+    outline-offset: 4px;
+  }
+
+  .nav-btn:active {
+    transform: translateY(-50%) scale(0.95);
+  }
+
+  .nav-btn.prev {
+    left: 0;
+  }
+
+  .nav-btn.next {
+    right: 0;
+  }
+
+  /* Image counter */
+  .gallery-counter {
+    position: absolute;
+    bottom: 1rem;
+    right: 1rem;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.875rem;
+    font-family: var(--font-main);
+    border-radius: 4px;
+    backdrop-filter: blur(4px);
+    user-select: none;
+  }
+
+  .gallery-counter .separator {
+    margin: 0 0.25rem;
+    opacity: 0.7;
+  }
+
+  /* Loading states */
+  .gallery :global(.optimized-image[loading="lazy"]) {
+    background: var(--border-color);
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.8;
+    }
+  }
+
+  /* Captions in gallery */
+  .gallery :global(.image-caption) {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    margin: 0;
+    border: none;
+    border-radius: 0;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    transform: translateY(0);
+  }
+
+  .gallery :global(.image-figure:hover .image-caption) {
+    opacity: 1;
+  }
+
+  /* Mobile optimizations */
+  @media (max-width: 768px) {
+    .nav-btn {
+      display: none;
+    }
+
+    .gallery-counter {
+      bottom: 0.5rem;
+      right: 0.5rem;
+      padding: 0.375rem 0.5rem;
+      font-size: 0.75rem;
+    }
+
+    .gallery {
+      cursor: grab;
+    }
+
+    .gallery:active {
+      cursor: grabbing;
+    }
+  }
+
+  /* High contrast mode support */
+  @media (prefers-contrast: high) {
+    .nav-btn {
+      background: black;
+      border: 2px solid white;
+    }
+
+    .gallery-counter {
+      background: black;
+      border: 1px solid white;
+    }
+  }
+
+  /* Reduced motion support */
+  @media (prefers-reduced-motion: reduce) {
+    .gallery {
+      scroll-behavior: auto;
+    }
+
+    .nav-btn {
+      transition: none;
+    }
+
+    .gallery :global(.image-caption) {
+      transition: none;
+    }
+  }
+</style>

@@ -142,14 +142,7 @@ code {
     font-size: 0.875rem;
 }
 
-/* Code blocks (multiline) */
-pre {
-    background-color: var(--border-color);
-    padding: 1rem;
-    overflow-x: auto;
-    margin-bottom: 1.5rem;
-    border-radius: 3px;
-}
+/* Code blocks (multiline) - moved to gallery section for consistency */
 
 pre code {
     background: none;
@@ -211,14 +204,67 @@ img + em {
     padding-left: 1rem;
 }
 
+/* OPTIMIZED IMAGE LOADING STATES */
+img[loading="lazy"] {
+    background: var(--border-color);
+    min-height: 200px; /* Prevent layout shift */
+}
+
+/* Fade-in animation for lazy-loaded images */
+@keyframes imageLoad {
+    from {
+        opacity: 0;
+        filter: blur(4px);
+    }
+    to {
+        opacity: 1;
+        filter: blur(0);
+    }
+}
+
+img[data-loaded="true"] {
+    animation: imageLoad 0.3s ease;
+}
+
+/* Responsive image sizing */
+picture {
+    display: block;
+    margin: 2rem 0;
+}
+
+picture img {
+    margin: 0;
+}
+
 /* --- FINAL GALLERY STYLES --- */
 
-/* Wrapper handles positioning of buttons */
+/* Full-width gallery override for content containers */
 .gallery-wrapper {
     position: relative;
     margin: 2rem 0;
     border: 1px solid var(--border-color);
     background-color: var(--bg-color); /* Matches theme */
+    max-width: none !important; /* Override content max-width constraints */
+    width: 100% !important; /* Ensure full width */
+}
+
+/* Ensure code blocks also use full width when needed */
+pre {
+    background-color: var(--border-color);
+    padding: 1rem;
+    overflow-x: auto;
+    margin-bottom: 1.5rem;
+    border-radius: 3px;
+    max-width: none; /* Allow full width for wide code */
+}
+
+/* Override content width constraints for specific wide elements */
+.gallery-wrapper,
+.image-figure,
+picture,
+figure {
+    max-width: none !important;
+    width: 100%;
 }
 
 .gallery {
@@ -231,6 +277,8 @@ img + em {
 
     /* Height Definition */
     height: 500px; /* Fixed height container */
+    width: 100%;
+    max-width: none;
 }
 
 .gallery::-webkit-scrollbar {

@@ -6,6 +6,12 @@ export default defineConfig({
   build: {
     format: "directory",
   },
+  // Image optimization
+  image: {
+    // Enable responsive images
+    experimentalLayout: true,
+  },
   // Minimal optimizations
   compressHTML: true,
+  site: "https://monograph.vercel.app", // Update this with your domain
 });

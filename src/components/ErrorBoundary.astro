@@ -1,0 +1,92 @@
+---
+export interface Props {
+  fallback?: string;
+  error?: Error;
+}
+
+const { fallback = "Something went wrong", error } = Astro.props;
+---
+
+<div class="error-boundary">
+  <div class="error-content">
+    <h2>Oops!</h2>
+    <p>{fallback}</p>
+    {error && import.meta.env.DEV && (
+      <details class="error-details">
+        <summary>Error Details (Development Only)</summary>
+        <pre><code>{error.message}</code></pre>
+        {error.stack && (
+          <pre><code>{error.stack}</code></pre>
+        )}
+      </details>
+    )}
+    <a href="/" class="error-link">← Back to Home</a>
+  </div>
+</div>
+
+<style>
+  .error-boundary {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 50vh;
+    padding: 2rem;
+  }
+
+  .error-content {
+    text-align: center;
+    max-width: 500px;
+  }
+
+  .error-content h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: var(--text-primary);
+  }
+
+  .error-content p {
+    margin-bottom: 2rem;
+    color: var(--text-secondary);
+  }
+
+  .error-link {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--border-color);
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+
+  .error-link:hover {
+    background-color: var(--text-primary);
+    color: var(--bg-color);
+    text-decoration: none;
+  }
+
+  .error-details {
+    margin: 2rem 0;
+    text-align: left;
+    border: 1px solid var(--border-color);
+    padding: 1rem;
+  }
+
+  .error-details summary {
+    cursor: pointer;
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+
+  .error-details pre {
+    font-size: 0.75rem;
+    overflow-x: auto;
+    margin: 0.5rem 0;
+    padding: 0.5rem;
+    background-color: var(--border-color);
+    border-radius: 3px;
+  }
+
+  .error-details code {
+    background: none;
+    padding: 0;
+  }
+</style>

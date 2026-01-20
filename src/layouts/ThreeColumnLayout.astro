@@ -2,10 +2,19 @@
 import "../styles/global.css";
 import SearchInput from "../components/SearchInput.astro";
 import ProjectList from "../components/ProjectList.astro";
+import DevWarning from "../components/DevWarning.astro";
 import { getEntry } from "astro:content";
+import {
+    siteConfig,
+    getPageTitle,
+    getCanonicalURL,
+    getOGImageURL,
+} from "../config/site.ts";
 
 // --- CONFIGURATION ---
-const SHOW_SEARCH = true;
+// Most configuration is now centralized in src/config/site.ts
+// Update your site info there before deploying!
+const SHOW_SEARCH = siteConfig.features.search;
 // ---------------------
 
 const { title } = Astro.props;
@@ -13,17 +22,14 @@ const cv = await getEntry("pages", "cv");
 const { Content: CVContent } = await cv.render();
 
 const currentYear = new Date().getFullYear();
-const footerText = `©${currentYear} monograph | A minimalist, editorial index-style portfolio built with Astro.`;
+const footerText = `©${currentYear} ${siteConfig.name} | A minimalist, editorial index-style portfolio built with Astro.`;
 
 // --- SEO CONFIGURATION ---
-const siteTitle = "Monograph";
-const siteDescription =
-    "A minimalist, editorial index-style portfolio built with Astro. Readable, durable, and resistant to trend decay.";
-const siteUrl = "https://monograph.vercel.app"; // CHANGE THIS to your actual domain
-const ogImage = `${siteUrl}/og-image.png`; // Create this image (1200x630px recommended)
-const twitterHandle = "@yourusername"; // CHANGE THIS to your Twitter handle (optional)
-
-const pageTitle = title ? `${title} — ${siteTitle}` : siteTitle;
+// ⚠️ IMPORTANT: All site configuration is now in src/config/site.ts
+// Update your domain, social handles, and other info there!
+const pageTitle = getPageTitle(title);
+const canonicalURL = getCanonicalURL(Astro.url.pathname);
+const ogImageURL = getOGImageURL();
 ---
 
 <!doctype html>
@@ -35,45 +41,59 @@ const pageTitle = title ? `${title} — ${siteTitle}` : siteTitle;
         <!-- Primary Meta Tags -->
         <title>{pageTitle}</title>
         <meta name="title" content={pageTitle} />
-        <meta name="description" content={siteDescription} />
-        <meta name="author" content="tandukuda" />
+        <meta name="description" content={siteConfig.description} />
+        <meta name="author" content={siteConfig.author.name} />
 
         <!-- Favicon -->
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
         <!-- Open Graph / Facebook -->
         <meta property="og:type" content="website" />
-        <meta property="og:url" content={Astro.url} />
+        <meta property="og:url" content={canonicalURL} />
         <meta property="og:title" content={pageTitle} />
-        <meta property="og:description" content={siteDescription} />
-        <meta property="og:image" content={ogImage} />
-        <meta property="og:site_name" content={siteTitle} />
+        <meta property="og:description" content={siteConfig.description} />
+        <meta property="og:image" content={ogImageURL} />
+        <meta property="og:site_name" content={siteConfig.title} />
 
         <!-- Twitter -->
         <meta property="twitter:card" content="summary_large_image" />
-        <meta property="twitter:url" content={Astro.url} />
+        <meta property="twitter:url" content={canonicalURL} />
         <meta property="twitter:title" content={pageTitle} />
-        <meta property="twitter:description" content={siteDescription} />
-        <meta property="twitter:image" content={ogImage} />
-        <meta property="twitter:creator" content={twitterHandle} />
+        <meta property="twitter:description" content={siteConfig.description} />
+        <meta property="twitter:image" content={ogImageURL} />
+        {
+            siteConfig.author.twitter && (
+                <meta
+                    property="twitter:creator"
+                    content={siteConfig.author.twitter}
+                />
+            )
+        }
 
         <!-- Canonical URL -->
-        <link rel="canonical" href={Astro.url} />
+        <link rel="canonical" href={canonicalURL} />
     </head>
     <body>
+        <DevWarning />
         <main class="grid-container">
             <aside class="col-left scroll-area">
                 <header class="site-header">
                     <h1>
-                        <a href="/" style="text-decoration: none;">Monograph</a>
+                        <a href="/" style="text-decoration: none;"
+                            >{siteConfig.name}</a
+                        >
                     </h1>
                 </header>
 
                 <nav class="main-nav">
                     <ul>
-                        <li><a href="/">index</a></li>
-                        <li><a href="/about">about</a></li>
-                        <li><a href="/links">others</a></li>
+                        {
+                            siteConfig.nav.map((item) => (
+                                <li>
+                                    <a href={item.href}>{item.label}</a>
+                                </li>
+                            ))
+                        }
                     </ul>
                 </nav>
 
@@ -154,6 +174,57 @@ const pageTitle = title ? `${title} — ${siteTitle}` : siteTitle;
                     });
                 });
             });
+
+            // 3. OPTIMIZED IMAGE LOADING
+            const images = document.querySelectorAll('img[loading="lazy"]');
+
+            // Add intersection observer for better lazy loading feedback
+            if ("IntersectionObserver" in window) {
+                const imageObserver = new IntersectionObserver((entries) => {
+                    entries.forEach((entry) => {
+                        if (entry.isIntersecting) {
+                            const img = entry.target;
+                            img.addEventListener("load", () => {
+                                img.setAttribute("data-loaded", "true");
+                                img.style.opacity = "1";
+                            });
+                            imageObserver.unobserve(img);
+                        }
+                    });
+                });
+
+                images.forEach((img) => {
+                    imageObserver.observe(img);
+                });
+            }
+
+            // Fallback for browsers without IntersectionObserver
+            else {
+                images.forEach((img) => {
+                    img.addEventListener("load", () => {
+                        img.setAttribute("data-loaded", "true");
+                        img.style.opacity = "1";
+                    });
+                });
+            }
+
+            // 4. KEYBOARD NAVIGATION FOR GALLERIES
+            document.addEventListener("keydown", (e) => {
+                const activeGallery = document.querySelector(
+                    ".gallery-wrapper:hover, .gallery-wrapper:focus-within",
+                );
+                if (
+                    activeGallery &&
+                    (e.key === "ArrowLeft" || e.key === "ArrowRight")
+                ) {
+                    e.preventDefault();
+                    const btn =
+                        e.key === "ArrowLeft"
+                            ? activeGallery.querySelector(".prev")
+                            : activeGallery.querySelector(".next");
+                    if (btn) btn.click();
+                }
+            });
         </script>
 
         <style>
@@ -207,29 +278,51 @@ const pageTitle = title ? `${title} — ${siteTitle}` : siteTitle;
 
             /* --- MOBILE (Stacked) --- */
             @media (max-width: 1023px) {
-              .grid-container {
-                display: flex;
-                flex-direction: column;
-                padding: 1.5rem;
-                gap: 3rem;
-                min-height: 100vh;
-              }
+                .grid-container {
+                    display: flex;
+                    flex-direction: column;
+                    padding: 1.5rem;
+                    gap: 3rem;
+                    min-height: 100vh;
+                }
 
-              /* Mobile Order */
-              .col-left { display: contents; }
-              .site-header { order: 1; margin-bottom: 2rem; display: block; }
-              .main-nav { order: 2; margin-bottom: 2rem; display: block; }
-              .col-middle { order: 3; flex: 1; }
+                /* Mobile Order */
+                .col-left {
+                    display: contents;
+                }
+                .site-header {
+                    order: 1;
+                    margin-bottom: 2rem;
+                    display: block;
+                }
+                .main-nav {
+                    order: 2;
+                    margin-bottom: 2rem;
+                    display: block;
+                }
+                .col-middle {
+                    order: 3;
+                    flex: 1;
+                }
 
-              /* HIDE PROJECT LIST ON MOBILE */
-              .index-section {
-                display: none; /* ← Changed from 'order: 4' */
-              }
+                /* HIDE PROJECT LIST ON MOBILE */
+                .index-section {
+                    display: none; /* ← Changed from 'order: 4' */
+                }
 
-              /* Removed 'border-top: 1px solid var(--border-color);' from the line below */
-              .col-right { order: 4; margin-top: 2rem; padding-top: 2rem; }
+                /* Removed 'border-top: 1px solid var(--border-color);' from the line below */
+                .col-right {
+                    order: 4;
+                    margin-top: 2rem;
+                    padding-top: 2rem;
+                }
 
-              .site-footer { order: 5; margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--border-color); }
+                .site-footer {
+                    order: 5;
+                    margin-top: 4rem;
+                    padding-top: 2rem;
+                    border-top: 1px solid var(--border-color);
+                }
             }
 
             /* --- GLOBAL TYPOGRAPHY --- */
