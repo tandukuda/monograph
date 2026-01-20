@@ -8,7 +8,10 @@ It is designed to be readable, durable, and resistant to trend decay. It feature
 
 ---
 
-## Quick Start
+## Quick Deploy
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/tandukuda/monograph)
+
+## Manual Setup
 ### 1. Clone the repo
 ```bash
 git clone https://github.com/tandukuda/monograph.git
