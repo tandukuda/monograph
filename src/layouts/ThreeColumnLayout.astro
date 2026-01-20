@@ -207,50 +207,27 @@ const pageTitle = title ? `${title} — ${siteTitle}` : siteTitle;
 
             /* --- MOBILE (Stacked) --- */
             @media (max-width: 1023px) {
-                .grid-container {
-                    display: flex;
-                    flex-direction: column;
-                    padding: 1.5rem;
-                    gap: 3rem;
-                    min-height: 100vh; /* Ensure full height on mobile too */
-                }
+              .grid-container {
+                display: flex;
+                flex-direction: column;
+                padding: 1.5rem;
+                gap: 3rem;
+                min-height: 100vh;
+              }
 
-                /* Mobile Order */
-                .col-left {
-                    display: contents;
-                }
-                .site-header {
-                    order: 1;
-                    margin-bottom: 2rem;
-                    display: block;
-                }
-                .main-nav {
-                    order: 2;
-                    margin-bottom: 2rem;
-                    display: block;
-                }
-                .col-middle {
-                    order: 3;
-                    flex: 1; /* Push footer down on mobile */
-                }
-                .index-section {
-                    order: 4;
-                    margin-top: 4rem;
-                    border-top: 1px solid var(--border-color);
-                    padding-top: 2rem;
-                }
-                .col-right {
-                    order: 5;
-                    margin-top: 2rem;
-                    border-top: 1px solid var(--border-color);
-                    padding-top: 2rem;
-                }
-                .site-footer {
-                    order: 6;
-                    margin-top: 4rem;
-                    padding-top: 2rem;
-                    border-top: 1px solid var(--border-color);
-                }
+              /* Mobile Order */
+              .col-left { display: contents; }
+              .site-header { order: 1; margin-bottom: 2rem; display: block; }
+              .main-nav { order: 2; margin-bottom: 2rem; display: block; }
+              .col-middle { order: 3; flex: 1; }
+
+              /* HIDE PROJECT LIST ON MOBILE */
+              .index-section {
+                display: none; /* ← Changed from 'order: 4' */
+              }
+
+              .col-right { order: 4; margin-top: 2rem; border-top: 1px solid var(--border-color); padding-top: 2rem; }
+              .site-footer { order: 5; margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--border-color); }
             }
 
             /* --- GLOBAL TYPOGRAPHY --- */
