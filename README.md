@@ -1,10 +1,68 @@
 <h1 align="center">Monograph</h1>
 
-**Monograph** is a minimalist, editorial index-style portfolio built with [Astro](https://astro.build).
+Monograph is an **editorial, index-first portfolio system**.
 
-It is designed to be readable, durable, and resistant to trend decay. It features a strict three-column layout, file-based content management, and zero-runtime JavaScript (except where strictly necessary for **Search**).
+It rejects expressive layouts to treat a portfolio as a **permanent index of decisions**, not a visual performance.
+
+This is not a theme.
+It is a position.
+
+---
 
 ![Monograph Preview](./assets/preview.png)
+
+---
+
+## What Monograph Is
+
+Monograph is designed for designers who believe:
+
+- A portfolio should be read, not scrolled
+- Structure is part of the work
+- Decisions matter more than decoration
+- Permanence beats constant rearrangement
+
+It prioritizes:
+- Legibility
+- Metadata
+- Editorial clarity
+- Long-term readability
+
+If you are looking for layout freedom, visual experimentation, or drag-and-drop expressiveness, **this is the wrong starting point**.
+
+---
+
+## What Monograph Is Not
+
+Monograph is not:
+- A Cargo replacement with more freedom
+- A visual playground
+- A theme marketplace asset
+- A showcase for animation or spectacle
+
+Those are valid goals.
+They are simply not this project's goal.
+
+---
+
+## Editorial Principles
+
+Monograph is built around a small set of non-negotiable defaults:
+
+1. **Index before imagery**  
+   Projects are listed and contextualized before they are seen.
+
+2. **Metadata is interface**  
+   Year, role, medium, and context are always visible.
+
+3. **Claims over descriptions**  
+   Each project begins with a single-sentence claim — an argument, not a summary.
+
+4. **Permanence over performance**  
+   The system assumes a portfolio is an archive, not a feed.
+
+You may change these rules.
+But changing them is a **fork**, not a customization.
 
 ---
 
@@ -69,94 +127,28 @@ Open [http://localhost:4321](http://localhost:4321)
 4. Configure images and optimize performance
 5. Test all features and verify SEO settings
 
-## Features
+---
 
-- [x] **Three-column editorial layout** - Clean, professional design
-- [x] **Markdown-based content management** - Easy to write and maintain
-- [x] **Centralized site configuration** - Single file for all settings
-- [x] **Image optimization system** - Automatic WebP/AVIF conversion with responsive sizing
-- [x] **Interactive galleries** - Touch/swipe navigation with keyboard support
-- [x] **Client-side search** - Real-time project filtering (optional)
-- [x] **Zero-config dark/light mode** - Respects user preferences
-- [x] **Static site generation** - Blazing fast performance
-- [x] **Built-in SEO optimization** - Meta tags, Open Graph, structured data
-- [x] **Development guidance** - Configuration warnings and setup assistance
-- [x] **Type-safe content** - TypeScript schemas for content validation
-- [x] **Accessibility first** - WCAG compliant with screen reader support
-- [x] **Performance optimized** - Lazy loading, modern formats, layout stability
+## Forking Monograph
 
-## Customization
+Monograph is intentionally opinionated.
 
-### Site Configuration
-All site-wide settings are centralized in `src/config/site.ts`:
-- **Site metadata** - Title, description, URL, OG images
-- **Author information** - Name, email, social media handles
-- **Navigation menu** - Customize links and labels
-- **Feature toggles** - Search, dark mode, analytics
-- **SEO settings** - Structured data, canonical URLs
+You are encouraged to fork it — but every deviation carries responsibility.
 
-### Content Management
-- **Projects:** Add `.md` files to `src/content/projects/` with frontmatter
-- **Pages:** Edit bio, CV, and about content in `src/content/pages/`
-- **Images:** Automatic optimization with `OptimizedImage` and `Gallery` components
-- **Styling:** CSS variables in `src/styles/global.css` for colors and typography
+If you:
+- Add expressive layouts
+- Introduce decorative motion
+- Remove metadata
+- Reorder projects casually
 
-### Advanced Features
-- **Component system** - Reusable OptimizedImage and Gallery components
-- **Image optimization** - Automatic format conversion and responsive sizing
-- **Error handling** - Built-in error boundaries and fallback states
-- **Performance monitoring** - Core Web Vitals optimization built-in
+You are changing the editorial stance.
 
-### Development Warning
-By default, an orange warning appears in development mode when using placeholder configuration values. This helps prevent accidental deployment with demo data.
+That's allowed.
+Just don't pretend it's still Monograph.
 
-**To remove the warning (optional):**
-1. Delete `src/components/DevWarning.astro`
-2. Remove the import and component from `src/layouts/ThreeColumnLayout.astro`
+---
 
-The warning only appears during development and automatically disappears once you update your site configuration.
-
-### Image Optimization System
-Monograph includes industry-leading image optimization with automatic format conversion, responsive sizing, and progressive loading:
-
-```astro
-import OptimizedImage from '../components/OptimizedImage.astro';
-import Gallery from '../components/Gallery.astro';
-
-<!-- Single optimized image -->
-<OptimizedImage
-  src="/images/project-hero.jpg"
-  alt="Project hero image"
-  width={1200}
-  height={800}
-  caption="Automatically optimized with WebP/AVIF formats"
-  quality={85}
-  sizes="(max-width: 768px) 100vw, 75vw"
-/>
-
-<!-- Interactive gallery with navigation -->
-<Gallery
-  images={[
-    { src: "/images/screenshot-1.jpg", alt: "Homepage design", caption: "Landing page" },
-    { src: "/images/screenshot-2.jpg", alt: "Dashboard interface", caption: "User dashboard" },
-    { src: "/images/screenshot-3.jpg", alt: "Mobile view", caption: "Responsive design" }
-  ]}
-  height="600px"
-  quality={90}
-  loading="lazy"
-/>
-```
-
-**Performance Features:**
-- **60-75% file size reduction** through modern formats (WebP/AVIF)
-- **Responsive breakpoints** - Right-sized images for each device
-- **Progressive loading** - Critical images load first, others lazy load
-- **Layout stability** - No content jumping with explicit dimensions
-- **Touch navigation** - Swipe gestures and keyboard support for galleries
-- **SEO optimized** - Proper semantic markup and structured data
-- **Browser fallbacks** - Automatic JPG/PNG fallbacks for older browsers
-
-## Technology Stack
+## Built With
 
 - **[Astro](https://astro.build)** - Static site generation with component islands
 - **TypeScript** - Type safety for configuration and content schemas
@@ -165,7 +157,21 @@ import Gallery from '../components/Gallery.astro';
 - **Modern Web APIs** - Intersection Observer, Web Components, CSS Grid
 - **Performance First** - Optimized images, lazy loading, minimal JavaScript
 
----
+The technical choices support the editorial stance.
+They are not the point.
+
+## Technical Features
+
+- **Three-column editorial layout** - Strict, non-negotiable structure
+- **Markdown-based content management** - Easy to write and maintain
+- **Centralized site configuration** - Single file for all settings
+- **Image optimization system** - Automatic WebP/AVIF conversion with responsive sizing
+- **Interactive galleries** - Touch/swipe navigation with keyboard support
+- **Client-side search** - Real-time project filtering (optional)
+- **Zero-config dark/light mode** - Respects user preferences
+- **Static site generation** - Blazing fast performance
+- **Built-in SEO optimization** - Meta tags, Open Graph, structured data
+- **Accessibility first** - WCAG compliant with screen reader support
 
 ## Performance & Accessibility
 
@@ -193,6 +199,14 @@ If Monograph helps streamline your portfolio workflow, sponsorship keeps it **fa
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+---
+
+Use it.
+Change it.
+Argue with it.
+
+But understand what it's arguing first.
 
 ---
 <div align="center">
