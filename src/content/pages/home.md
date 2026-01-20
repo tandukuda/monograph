@@ -3,4 +3,4 @@ title: "index"
 ---
 # Hello, World!
 
-**Monograph** is a minimalist, editorial index-style portfolio built with [Astro](https://astro.build).
+Monograph rejects expressive layouts to treat a portfolio as a permanent index, not a visual performance.
