@@ -238,7 +238,7 @@ const ogImageURL = getOGImageURL();
                     padding: 4rem;
                     padding-bottom: 0;
                     gap: 4rem;
-                    grid-template-columns: 1fr 2fr 1fr;
+                    grid-template-columns: 280px 1fr 280px;
 
                     /* FIX: This forces the footer to the bottom */
                     grid-template-rows: 1fr auto;
@@ -255,6 +255,9 @@ const ogImageURL = getOGImageURL();
                     max-height: calc(100vh - 8rem);
                     overflow-y: auto;
                     scrollbar-width: none;
+                    width: 280px;
+                    min-width: 280px;
+                    max-width: 280px;
                 }
 
                 .col-left::-webkit-scrollbar,
@@ -266,7 +269,7 @@ const ogImageURL = getOGImageURL();
                 .site-footer {
                     grid-column: 1 / -1;
                     margin-top: 4rem;
-                    padding: 1rem 0;
+                    padding: 2rem 0;
                     border-top: 1px solid var(--border-color);
 
                     /* Ensure it doesn't overlap sticky content */
@@ -301,8 +304,10 @@ const ogImageURL = getOGImageURL();
                     display: block;
                 }
                 .col-middle {
-                    order: 3;
-                    flex: 1;
+                  width: 100%;
+                  max-width: 100%;
+                  min-width: 0; /* Critical for preventing grid blowout */
+                  overflow-x: hidden;
                 }
 
                 /* HIDE PROJECT LIST ON MOBILE */

@@ -84,4 +84,118 @@ const { Content } = await entry.render();
     .project-body {
         margin-top: 2rem;
     }
+
+    /* ============================================
+       ADD TO: src/pages/project/[slug].astro
+       Inside the existing <style> block
+       ============================================ */
+
+    .project-detail {
+      width: 100%;
+      max-width: 100%;
+
+      /* CRITICAL: Prevent content from pushing column boundaries */
+      overflow-x: hidden;
+    }
+
+    .project-header {
+      margin-bottom: 3rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid var(--border-color);
+
+      /* Ensure header doesn't stretch */
+      max-width: 100%;
+    }
+
+    .project-metadata {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+      gap: 1rem;
+      margin-top: 2rem;
+      font-size: 0.875rem;
+    }
+
+    dt {
+      color: var(--text-secondary);
+      margin-bottom: 0.25rem;
+    }
+
+    .project-body {
+      margin-top: 2rem;
+
+      /* CRITICAL: Force all direct children to respect boundaries */
+      width: 100%;
+      max-width: 100%;
+    }
+
+    /* ============================================
+       PROSE CONTENT - CONSISTENT MEASURE
+       ============================================ */
+
+    .project-body :global(p),
+    .project-body :global(ul),
+    .project-body :global(ol),
+    .project-body :global(blockquote) {
+      max-width: 65ch;
+      width: 100%;
+    }
+
+    .project-body :global(h1),
+    .project-body :global(h2),
+    .project-body :global(h3),
+    .project-body :global(h4) {
+      max-width: 65ch;
+      width: 100%;
+    }
+
+    /* ============================================
+       IMAGES - CONSTRAINED TO COLUMN
+       ============================================ */
+
+    /* Single images from markdown */
+    .project-body :global(img:not(.gallery img)) {
+      max-width: 100% !important;
+      width: 100% !important;
+      height: auto;
+
+      /* Prevent layout shift */
+      display: block;
+      margin: 2rem auto;
+    }
+
+    /* Gallery wrapper */
+    .project-body :global(.gallery-wrapper) {
+      max-width: 100%;
+      width: 100%;
+      margin: 2rem 0;
+
+      /* CRITICAL: Contain the gallery */
+      overflow: hidden;
+    }
+
+    /* Gallery container */
+    .project-body :global(.gallery) {
+      max-width: 100%;
+      width: 100%;
+    }
+
+    /* ============================================
+       CODE BLOCKS - PREVENT OVERFLOW
+       ============================================ */
+
+    .project-body :global(pre),
+    .project-body :global(code) {
+      max-width: 100%;
+      overflow-x: auto;
+    }
+
+    /* ============================================
+       TABLES - RESPONSIVE
+       ============================================ */
+
+    .project-body :global(table) {
+      max-width: 100%;
+      overflow-x: auto;
+      display: block;
+    }
 </style>
