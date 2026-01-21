@@ -1,0 +1,283 @@
+/* MONOGRAPH PRINT STYLESHEET
+   Optimized for portfolio printing and PDF export
+*/
+
+@media print {
+    /* Reset page margins */
+    @page {
+        margin: 2cm;
+        size: A4;
+    }
+
+    /* Force light mode for printing */
+    :root {
+        --bg-color: #ffffff;
+        --text-primary: #000000;
+        --text-secondary: #666666;
+        --border-color: #cccccc;
+    }
+
+    /* Hide interactive elements */
+    .dev-warning,
+    .search-container,
+    .nav-btn,
+    .gallery-counter,
+    .mobile-menu-toggle,
+    .mobile-menu-overlay,
+    button,
+    .site-footer,
+    .main-nav,
+    .index-section {
+        display: none !important;
+    }
+
+    /* Simplify layout to single column */
+    .grid-container {
+        display: block !important;
+        padding: 0 !important;
+        max-width: 100% !important;
+    }
+
+    .col-left,
+    .col-middle,
+    .col-right {
+        position: static !important;
+        max-height: none !important;
+        overflow: visible !important;
+        float: none !important;
+        width: 100% !important;
+    }
+
+    /* Header */
+    .site-header {
+        margin-bottom: 2rem;
+        page-break-after: avoid;
+    }
+
+    .site-header h1 {
+        font-size: 2rem;
+        border-bottom: 2px solid var(--text-primary);
+        padding-bottom: 0.5rem;
+    }
+
+    /* CV content in header area */
+    .cv-content {
+        margin-bottom: 2rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid var(--border-color);
+        page-break-after: avoid;
+    }
+
+    .cv-content h2 {
+        display: inline;
+        margin-right: 0.5rem;
+    }
+
+    .cv-content h2:after {
+        content: ": ";
+    }
+
+    .cv-content p {
+        display: inline;
+        margin-right: 1rem;
+    }
+
+    /* Main content */
+    .col-middle {
+        margin-top: 2rem;
+    }
+
+    /* Project metadata */
+    .project-metadata {
+        margin-bottom: 1.5rem;
+        padding: 1rem;
+        background: #f5f5f5;
+        page-break-inside: avoid;
+    }
+
+    .project-metadata dt {
+        display: inline;
+        font-weight: bold;
+    }
+
+    .project-metadata dt:after {
+        content: ": ";
+    }
+
+    .project-metadata dd {
+        display: inline;
+        margin-right: 1rem;
+    }
+
+    .project-metadata dd:after {
+        content: " | ";
+    }
+
+    .project-metadata dd:last-child:after {
+        content: "";
+    }
+
+    /* Typography adjustments for print */
+    body {
+        font-size: 11pt;
+        line-height: 1.4;
+    }
+
+    h1 {
+        font-size: 18pt;
+        margin-top: 1cm;
+        page-break-after: avoid;
+    }
+
+    h2 {
+        font-size: 14pt;
+        margin-top: 0.8cm;
+        page-break-after: avoid;
+    }
+
+    h3 {
+        font-size: 12pt;
+        margin-top: 0.6cm;
+        page-break-after: avoid;
+    }
+
+    p {
+        orphans: 3;
+        widows: 3;
+    }
+
+    /* Links */
+    a {
+        color: var(--text-primary);
+        text-decoration: underline;
+    }
+
+    a[href^="http"]:after {
+        content: " (" attr(href) ")";
+        font-size: 9pt;
+        color: var(--text-secondary);
+    }
+
+    /* Don't print URLs for internal links */
+    a[href^="/"]:after,
+    a[href^="#"]:after {
+        content: "";
+    }
+
+    /* Images */
+    img {
+        max-width: 100%;
+        height: auto;
+        page-break-inside: avoid;
+        border: 1px solid var(--border-color);
+        filter: none !important; /* Remove grayscale for printing */
+    }
+
+    /* Gallery handling - show all images stacked */
+    .gallery-wrapper {
+        page-break-inside: avoid;
+        border: none;
+    }
+
+    .gallery {
+        display: block !important;
+        height: auto !important;
+        overflow: visible !important;
+    }
+
+    .gallery img {
+        display: block;
+        margin-bottom: 1rem;
+        page-break-inside: avoid;
+    }
+
+    /* Code blocks */
+    pre,
+    code {
+        page-break-inside: avoid;
+        border: 1px solid var(--border-color);
+        background: #f5f5f5;
+    }
+
+    /* Tables */
+    table {
+        page-break-inside: avoid;
+        border-collapse: collapse;
+    }
+
+    th,
+    td {
+        border: 1px solid var(--border-color);
+        padding: 0.25cm;
+    }
+
+    /* Lists */
+    ul,
+    ol {
+        page-break-inside: avoid;
+    }
+
+    /* Project list items */
+    .feed-list {
+        margin-top: 1rem;
+    }
+
+    .feed-item {
+        page-break-inside: avoid;
+        margin-bottom: 0.5cm;
+        padding-bottom: 0.25cm;
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    /* Page breaks */
+    .project-header,
+    article {
+        page-break-after: avoid;
+    }
+
+    .project-body {
+        page-break-before: avoid;
+    }
+
+    /* Ensure readability */
+    * {
+        background: transparent !important;
+        color: #000 !important;
+        box-shadow: none !important;
+        text-shadow: none !important;
+    }
+
+    /* Special print header */
+    body:before {
+        content: "Portfolio — Printed from " attr(data-url);
+        display: block;
+        font-size: 9pt;
+        color: var(--text-secondary);
+        margin-bottom: 1rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 1px solid var(--border-color);
+    }
+}
+
+/* Print-specific utilities */
+@media print {
+    .print-only {
+        display: block !important;
+    }
+
+    .no-print {
+        display: none !important;
+    }
+
+    .page-break-before {
+        page-break-before: always;
+    }
+
+    .page-break-after {
+        page-break-after: always;
+    }
+
+    .avoid-break {
+        page-break-inside: avoid;
+    }
+}

@@ -1,0 +1,8 @@
+# Allow all search engines to crawl the site
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://monograph.vercel.app/sitemap.xml
+
+# Note: Update the Sitemap URL above with your actual domain

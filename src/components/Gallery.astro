@@ -9,7 +9,6 @@ export interface Props {
   }[];
   height?: string;
   loading?: 'lazy' | 'eager';
-  quality?: number;
   class?: string;
 }
 
@@ -17,12 +16,11 @@ const {
   images,
   height = '500px',
   loading = 'lazy',
-  quality = 85,
   class: className = '',
 } = Astro.props;
 
-// Generate unique ID for this gallery instance
-const galleryId = `gallery-${Math.random().toString(36).substr(2, 9)}`;
+// Generate unique ID for this gallery instance (using slice instead of deprecated substr)
+const galleryId = `gallery-${Math.random().toString(36).slice(2, 11)}`;
 ---
 
 <div class={`gallery-wrapper ${className}`}>
@@ -62,7 +60,7 @@ const galleryId = `gallery-${Math.random().toString(36).substr(2, 9)}`;
   </div>
 </div>
 
-<script define:vars={{ galleryId }}>
+<script is:inline define:vars={{ galleryId }}>
   // Gallery functionality
   const wrapper = document.getElementById(galleryId)?.parentElement;
   if (wrapper) {
@@ -71,7 +69,6 @@ const galleryId = `gallery-${Math.random().toString(36).substr(2, 9)}`;
     const nextBtn = wrapper.querySelector('.next');
     const counter = wrapper.querySelector('.gallery-counter');
     const currentSpan = counter?.querySelector('.current');
-    const totalSpan = counter?.querySelector('.total');
 
     if (gallery && prevBtn && nextBtn) {
       let currentIndex = 0;

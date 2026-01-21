@@ -3,8 +3,9 @@ title: "Customization Guide"
 type: "Documentation"
 year: "2026"
 tags: ["guide", "config"]
+link: "https://github.com/tandukuda/monograph"
 description: "Toggle features and customize Monograph"
-medium: ["docs"]
+medium: ["Docs"]
 role: ["Developer"]
 ---
 

@@ -1,10 +1,143 @@
 ---
-import ThreeColumnLayout from '../layouts/ThreeColumnLayout.astro';
+import ThreeColumnLayout from "../layouts/ThreeColumnLayout.astro";
+import { getCollection } from "astro:content";
+
+// Get recent projects to suggest
+const allProjects = await getCollection("projects");
+const recentProjects = allProjects
+    .sort((a, b) => a.slug.localeCompare(b.slug))
+    .slice(0, 5);
 ---
 
 <ThreeColumnLayout title="Not Found">
-  <article>
-    <h1>404</h1>
-    <p>Page not found. Return to the <a href="/">Index</a>.</p>
-  </article>
+    <article class="error-page">
+        <h1>404</h1>
+        <p class="error-message">Page not found.</p>
+
+        <p>
+            The page you're looking for doesn't exist. It may have been moved or
+            deleted.
+        </p>
+
+        <nav class="error-nav" aria-label="Navigation options">
+            <h2>Where would you like to go?</h2>
+            <ul>
+                <li><a href="/">← Back to Index</a></li>
+                <li><a href="/about">About</a></li>
+                <li><a href="/links">Links</a></li>
+            </ul>
+        </nav>
+
+        {
+            recentProjects.length > 0 && (
+                <section class="suggestions">
+                    <h2>Or explore recent projects:</h2>
+                    <ul>
+                        {recentProjects.map((project) => (
+                            <li>
+                                <a href={`/project/${project.slug}`}>
+                                    <span class="project-title">
+                                        {project.data.title}
+                                    </span>
+                                    <span class="project-meta">
+                                        {project.data.type}, {project.data.year}
+                                    </span>
+                                </a>
+                            </li>
+                        ))}
+                    </ul>
+                </section>
+            )
+        }
+    </article>
 </ThreeColumnLayout>
+
+<style>
+    .error-page {
+        max-width: 65ch;
+    }
+
+    .error-page h1 {
+        font-size: 4rem;
+        margin-bottom: 1rem;
+        color: var(--text-primary);
+    }
+
+    .error-message {
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-bottom: 2rem;
+    }
+
+    .error-nav {
+        margin: 3rem 0;
+        padding: 2rem 0;
+        border-top: 1px solid var(--border-color);
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .error-nav h2 {
+        font-size: 0.875rem;
+        text-transform: uppercase;
+        color: var(--text-secondary);
+        margin-bottom: 1rem;
+    }
+
+    .error-nav ul {
+        list-style: none;
+        padding: 0;
+    }
+
+    .error-nav li {
+        margin-bottom: 0.5rem;
+    }
+
+    .error-nav a {
+        text-decoration: none;
+        font-size: 1.125rem;
+    }
+
+    .error-nav a:hover {
+        text-decoration: underline;
+    }
+
+    .suggestions {
+        margin-top: 3rem;
+    }
+
+    .suggestions h2 {
+        font-size: 0.875rem;
+        text-transform: uppercase;
+        color: var(--text-secondary);
+        margin-bottom: 1.5rem;
+    }
+
+    .suggestions ul {
+        list-style: none;
+        padding: 0;
+    }
+
+    .suggestions li {
+        margin-bottom: 1.5rem;
+    }
+
+    .suggestions a {
+        text-decoration: none;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .suggestions a:hover .project-title {
+        text-decoration: underline;
+    }
+
+    .project-title {
+        font-weight: 700;
+        font-size: 1rem;
+    }
+
+    .project-meta {
+        font-size: 0.875rem;
+        color: var(--text-secondary);
+    }
+</style>

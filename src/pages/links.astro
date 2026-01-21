@@ -3,6 +3,11 @@ import ThreeColumnLayout from '../layouts/ThreeColumnLayout.astro';
 import { getEntry } from 'astro:content';
 
 const linksEntry = await getEntry('pages', 'links');
+
+if (!linksEntry) {
+  throw new Error("Links page content not found at src/content/pages/links.md");
+}
+
 const { Content } = await linksEntry.render();
 ---
 

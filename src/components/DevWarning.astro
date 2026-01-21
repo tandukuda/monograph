@@ -1,19 +1,39 @@
 ---
 import { siteConfig } from "../config/site.ts";
 
-// Check if we're in development and site hasn't been configured
+// Check if we're in development
 const isDev = import.meta.env.DEV;
-const isDefaultConfig =
+
+// More nuanced detection of default configuration
+const hasDefaultURL =
     siteConfig.url.includes("monograph.vercel.app") ||
+    siteConfig.url.includes("localhost") ||
+    siteConfig.url.includes("example.com");
+
+const hasDefaultAuthor =
     siteConfig.author.name === "tandukuda" ||
-    siteConfig.author.twitter === "@yourusername";
+    siteConfig.author.name === "Your Name";
+
+const hasDefaultTwitter = siteConfig.author.twitter === "@yourusername";
+
+const hasPlaceholderDescription =
+    siteConfig.description.includes("minimalist, editorial") &&
+    siteConfig.description.includes("Readable, durable");
+
+// Only show warning if MULTIPLE indicators suggest it's unconfigured
+const isUnconfigured =
+    (hasDefaultURL && hasDefaultAuthor) ||
+    (hasDefaultURL && hasPlaceholderDescription) ||
+    (hasDefaultAuthor && hasDefaultTwitter);
+
+const shouldShowWarning = isDev && isUnconfigured;
 ---
 
 {
-    isDev && isDefaultConfig && (
+    shouldShowWarning && (
         <div class="dev-warning">
             <div class="warning-content">
-                <h3>Configuration Required</h3>
+                <h3>⚠️ Configuration Required</h3>
                 <p>
                     You're using default configuration values.
                     <strong>
@@ -22,16 +42,21 @@ const isDefaultConfig =
                     with your information before deploying.
                 </p>
                 <details class="warning-details">
-                    <summary>What needs to be updated?</summary>
+                    <summary>What needs updating?</summary>
                     <ul>
-                        <li>Site name and title</li>
-                        <li>Your domain URL</li>
-                        <li>Author information</li>
-                        <li>Social media handles</li>
+                        {hasDefaultURL && (
+                            <li>✗ Site URL (currently: demo/localhost)</li>
+                        )}
+                        {hasDefaultAuthor && <li>✗ Author name</li>}
+                        {hasDefaultTwitter && <li>✗ Social media handles</li>}
+                        {hasPlaceholderDescription && (
+                            <li>✗ Site description</li>
+                        )}
                     </ul>
                 </details>
                 <p class="warning-note">
-                    This warning only appears in development mode.
+                    This warning only appears in development mode and will not
+                    show in production.
                 </p>
             </div>
         </div>
@@ -84,13 +109,14 @@ const isDefaultConfig =
     }
 
     .warning-details ul {
-        list-style: disc;
+        list-style: none;
         padding-left: 1.5rem;
         margin: 0.5rem 0 0 0;
     }
 
     .warning-details li {
         margin-bottom: 0.25rem;
+        font-family: var(--font-main);
     }
 
     .warning-note {

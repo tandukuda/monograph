@@ -4,9 +4,14 @@ import { getEntry, getCollection } from "astro:content";
 
 // 1. Fetch Home Page Content
 const homeEntry = await getEntry("pages", "home");
+
+if (!homeEntry) {
+  throw new Error("Home page content not found at src/content/pages/home.md");
+}
+
 const { Content } = await homeEntry.render();
 
-// 2. Fetch and Sort Projects (New Logic)
+// 2. Fetch and Sort Projects
 const projects = (await getCollection('projects')).sort((a, b) =>
   a.slug.localeCompare(b.slug)
 );

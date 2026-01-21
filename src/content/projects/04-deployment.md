@@ -3,8 +3,9 @@ title: "Deployment"
 type: "Documentation"
 year: "2026"
 tags: ["guide", "hosting"]
+link: "https://github.com/tandukuda/monograph"
 description: "How to deploy Monograph to production"
-medium: ["docs"]
+medium: ["Docs"]
 role: ["Developer"]
 ---
 

@@ -3,8 +3,9 @@ title: "Adding Projects"
 type: "Documentation"
 year: "2026"
 tags: ["guide", "content"]
+link: "https://github.com/tandukuda/monograph"
 description: "How to add and structure your portfolio projects"
-medium: ["docs"]
+medium: ["Docs"]
 role: ["Developer"]
 ---
 

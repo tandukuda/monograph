@@ -1,29 +1,31 @@
 ---
 import "../styles/global.css";
+import "../styles/print.css";
 import SearchInput from "../components/SearchInput.astro";
 import ProjectList from "../components/ProjectList.astro";
+import DevWarning from "../components/DevWarning.astro";
+import MobileMenu from "../components/MobileMenu.astro";
 import { getEntry } from "astro:content";
-
-// --- CONFIGURATION ---
-const SHOW_SEARCH = true;
-// ---------------------
+import { siteConfig, getPageTitle, getCanonicalURL, getOGImageURL } from "../config/site";
 
 const { title } = Astro.props;
 const cv = await getEntry("pages", "cv");
+
+// Check if cv exists before rendering
+if (!cv) {
+  throw new Error("CV page content not found at src/content/pages/cv.md");
+}
+
 const { Content: CVContent } = await cv.render();
 
 const currentYear = new Date().getFullYear();
-const footerText = `©${currentYear} monograph | A minimalist, editorial index-style portfolio built with Astro.`;
+const footerText = `©${currentYear} ${siteConfig.name} | A minimalist, editorial index-style portfolio built with Astro.`;
 
-// --- SEO CONFIGURATION ---
-const siteTitle = "Monograph";
-const siteDescription =
-    "A minimalist, editorial index-style portfolio built with Astro. Readable, durable, and resistant to trend decay.";
-const siteUrl = "https://monograph.vercel.app"; // CHANGE THIS to your actual domain
-const ogImage = `${siteUrl}/og-image.png`; // Create this image (1200x630px recommended)
-const twitterHandle = "@yourusername"; // CHANGE THIS to your Twitter handle (optional)
-
-const pageTitle = title ? `${title} — ${siteTitle}` : siteTitle;
+// Use centralized config for all metadata
+const pageTitle = getPageTitle(title);
+const pageDescription = siteConfig.description;
+const canonicalURL = getCanonicalURL(Astro.url.pathname);
+const ogImageURL = getOGImageURL();
 ---
 
 <!doctype html>
@@ -35,52 +37,82 @@ const pageTitle = title ? `${title} — ${siteTitle}` : siteTitle;
         <!-- Primary Meta Tags -->
         <title>{pageTitle}</title>
         <meta name="title" content={pageTitle} />
-        <meta name="description" content={siteDescription} />
-        <meta name="author" content="tandukuda" />
+        <meta name="description" content={pageDescription} />
+        <meta name="author" content={siteConfig.author.name} />
 
         <!-- Favicon -->
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
         <!-- Open Graph / Facebook -->
         <meta property="og:type" content="website" />
-        <meta property="og:url" content={Astro.url} />
+        <meta property="og:url" content={canonicalURL} />
         <meta property="og:title" content={pageTitle} />
-        <meta property="og:description" content={siteDescription} />
-        <meta property="og:image" content={ogImage} />
-        <meta property="og:site_name" content={siteTitle} />
+        <meta property="og:description" content={pageDescription} />
+        <meta property="og:image" content={ogImageURL} />
+        <meta property="og:site_name" content={siteConfig.name} />
 
         <!-- Twitter -->
         <meta property="twitter:card" content="summary_large_image" />
-        <meta property="twitter:url" content={Astro.url} />
+        <meta property="twitter:url" content={canonicalURL} />
         <meta property="twitter:title" content={pageTitle} />
-        <meta property="twitter:description" content={siteDescription} />
-        <meta property="twitter:image" content={ogImage} />
-        <meta property="twitter:creator" content={twitterHandle} />
+        <meta property="twitter:description" content={pageDescription} />
+        <meta property="twitter:image" content={ogImageURL} />
+        {siteConfig.author.twitter && (
+            <meta property="twitter:creator" content={siteConfig.author.twitter} />
+        )}
 
         <!-- Canonical URL -->
-        <link rel="canonical" href={Astro.url} />
+        <link rel="canonical" href={canonicalURL} />
+
+        <!-- Analytics (if configured) -->
+        {siteConfig.features.analytics && (
+            <>
+                <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${siteConfig.features.analytics}`}></script>
+                <script is:inline define:vars={{ analyticsId: siteConfig.features.analytics }}>
+                    window.dataLayer = window.dataLayer || [];
+                    function gtag(){dataLayer.push(arguments);}
+                    gtag('js', new Date());
+                    gtag('config', analyticsId);
+                </script>
+            </>
+        )}
     </head>
     <body>
+        <DevWarning />
+
+        <!-- Mobile burger menu (only visible on mobile) -->
+        <MobileMenu>
+            {siteConfig.features.search && <SearchInput />}
+            <ProjectList />
+        </MobileMenu>
+
         <main class="grid-container">
             <aside class="col-left scroll-area">
                 <header class="site-header">
                     <h1>
-                        <a href="/" style="text-decoration: none;">Monograph</a>
+                        <a href="/" style="text-decoration: none;">{siteConfig.title}</a>
                     </h1>
                 </header>
 
-                <nav class="main-nav">
+                <nav class="main-nav" aria-label="Main navigation">
                     <ul>
-                        <li><a href="/">index</a></li>
-                        <li><a href="/about">about</a></li>
-                        <li><a href="/links">others</a></li>
+                        {siteConfig.nav.map((item) => (
+                            <li><a href={item.href}>{item.label}</a></li>
+                        ))}
                     </ul>
                 </nav>
 
-                <div class="index-section">
-                    {SHOW_SEARCH && <SearchInput />}
-                    <ProjectList />
-                </div>
+                {siteConfig.features.search && (
+                    <div class="index-section">
+                        <SearchInput />
+                        <ProjectList />
+                    </div>
+                )}
+                {!siteConfig.features.search && (
+                    <div class="index-section">
+                        <ProjectList />
+                    </div>
+                )}
             </aside>
 
             <section class="col-middle">
@@ -98,7 +130,7 @@ const pageTitle = title ? `${title} — ${siteTitle}` : siteTitle;
             </footer>
         </main>
 
-        <script>
+        <script is:inline>
             // 1. SEARCH LOGIC
             const searchInput = document.getElementById("search");
             const projectList = document.getElementById("project-list");
@@ -110,7 +142,7 @@ const pageTitle = title ? `${title} — ${siteTitle}` : siteTitle;
                 );
                 searchInput.addEventListener("input", (e) => {
                     const term = (
-                        e.target as HTMLInputElement
+                        e.target
                     ).value.toLowerCase();
                     let visibleCount = 0;
                     items.forEach((item) => {
@@ -168,22 +200,17 @@ const pageTitle = title ? `${title} — ${siteTitle}` : siteTitle;
                     padding-bottom: 0;
                     gap: 4rem;
                     grid-template-columns: 1fr 2fr 1fr;
-
-                    /* FIX: This forces the footer to the bottom */
                     grid-template-rows: 1fr auto;
-
                     align-items: start;
                 }
 
-                /* MIDDLE */
                 .col-middle {
                   width: 100%;
                   max-width: 100%;
-                  min-width: 0; /* Critical for preventing grid blowout */
+                  min-width: 0;
                   overflow-x: hidden;
                 }
 
-                /* STICKY SIDEBARS */
                 .col-left,
                 .col-right {
                     position: sticky;
@@ -199,45 +226,51 @@ const pageTitle = title ? `${title} — ${siteTitle}` : siteTitle;
                     display: none;
                 }
 
-                /* FOOTER POSITIONING */
                 .site-footer {
                     grid-column: 1 / -1;
                     margin-top: 4rem;
                     padding: 1rem 0;
                     border-top: 1px solid var(--border-color);
-
-                    /* Ensure it doesn't overlap sticky content */
                     position: relative;
                     z-index: 10;
                     background-color: var(--bg-color);
                 }
             }
 
-            /* --- MOBILE (Stacked) --- */
+            /* --- MOBILE (Stacked, NO PROJECT LIST) --- */
             @media (max-width: 1023px) {
               .grid-container {
                 display: flex;
                 flex-direction: column;
                 padding: 1.5rem;
+                padding-top: 5rem; /* Space for fixed burger menu */
                 gap: 3rem;
                 min-height: 100vh;
               }
 
-              /* Mobile Order */
               .col-left { display: contents; }
               .site-header { order: 1; margin-bottom: 2rem; display: block; }
               .main-nav { order: 2; margin-bottom: 2rem; display: block; }
               .col-middle { order: 3; flex: 1; }
 
-              /* HIDE PROJECT LIST ON MOBILE */
+              /* HIDE project list on mobile - it's in burger menu now */
               .index-section {
-                display: none; /* ← Changed from 'order: 4' */
+                display: none !important;
               }
 
-              /* Removed 'border-top: 1px solid var(--border-color);' from the line below */
-              .col-right { order: 4; margin-top: 2rem; padding-top: 2rem; }
+              .col-right {
+                order: 4;
+                margin-top: 2rem;
+                padding-top: 2rem;
+                border-top: 1px solid var(--border-color);
+              }
 
-              .site-footer { order: 5; margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--border-color); }
+              .site-footer {
+                order: 5;
+                margin-top: 4rem;
+                padding-top: 2rem;
+                border-top: 1px solid var(--border-color);
+              }
             }
 
             /* --- GLOBAL TYPOGRAPHY --- */
@@ -266,9 +299,8 @@ const pageTitle = title ? `${title} — ${siteTitle}` : siteTitle;
                 margin-bottom: 1rem;
             }
 
-            /* FOOTER TEXT STYLE */
             .site-footer p {
-                margin: 1;
+                margin: 0;
             }
 
             .site-footer {
