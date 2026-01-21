@@ -16,13 +16,13 @@ This project demonstrates Monograph's built-in image optimization features with 
 
 Here's an example of a single optimized image with automatic format conversion and responsive sizing:
 
-<img src="/images/image 1.png" alt="Demo image showing optimization features" />
+<img src="../../assets/images/image 1.png" alt="Demo image showing optimization features" />
 
 **Live example using your actual images:**
 
-<img src="/images/image 2.png" alt="Second demo image" />
+<img src="../../assets/images/image 2.png" alt="Second demo image" />
 
-<img src="/images/image 3.png" alt="Third demo image" />
+<img src="../../assets/images/image 3.png" alt="Third demo image" />
 
 **What happens automatically:**
 - Images are optimized by Astro at build time
@@ -70,9 +70,9 @@ Here's a working gallery you can interact with right now (using the original HTM
   <button class="nav-btn next" aria-label="Next Slide">›</button>
 
   <div class="gallery">
-    <img src="/images/image 1.png" alt="Demo image 1 - Homepage design mockup" />
-    <img src="/images/image 2.png" alt="Demo image 2 - User dashboard interface" />
-    <img src="/images/image 3.png" alt="Demo image 3 - Mobile responsive view" />
+    <img src="../../assets/images/image 1.png" alt="Demo image 1 - Homepage design mockup" />
+    <img src="../../assets/images/image 2.png" alt="Demo image 2 - User dashboard interface" />
+    <img src="../../assets/images/image 3.png" alt="Demo image 3 - Mobile responsive view" />
   </div>
 </div>
 

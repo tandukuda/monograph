@@ -8,8 +8,9 @@ export default defineConfig({
   },
   // Image optimization
   image: {
-    // Enable responsive images
-    experimentalLayout: true,
+    service: {
+      entrypoint: "astro/assets/services/sharp",
+    },
   },
   // Minimal optimizations
   compressHTML: true,

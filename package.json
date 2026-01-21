@@ -33,7 +33,8 @@
     "preview": "astro preview"
   },
   "dependencies": {
-    "astro": "^5.16.11"
+    "astro": "^5.16.11",
+    "sharp": "^0.34.5"
   },
   "engines": {
     "node": ">=18.0.0"
