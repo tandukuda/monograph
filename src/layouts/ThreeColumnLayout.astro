@@ -175,6 +175,14 @@ const pageTitle = title ? `${title} — ${siteTitle}` : siteTitle;
                     align-items: start;
                 }
 
+                /* MIDDLE */
+                .col-middle {
+                  width: 100%;
+                  max-width: 100%;
+                  min-width: 0; /* Critical for preventing grid blowout */
+                  overflow-x: hidden;
+                }
+
                 /* STICKY SIDEBARS */
                 .col-left,
                 .col-right {
