@@ -19,7 +19,7 @@ This is your portfolio index. Each entry you see here is a project stored in `sr
 1. **Configure your site** - Update `src/config/site.ts` with your information
 2. **Delete the demo projects** (this file and others starting with `00-`, `01-`, etc.)
 3. **Add your own projects** by creating new `.md` files in `src/content/projects/`
-4. **Use optimized images** with the `OptimizedImage` and `Gallery` components
+4. **Use optimized images** - HTML img tags for single images, `Gallery` component for carousels
 5. **Customize the homepage bio** by editing `src/content/pages/home.md`
 6. **Update your CV** in `src/content/pages/cv.md`
 

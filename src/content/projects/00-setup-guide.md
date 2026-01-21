@@ -73,13 +73,7 @@ description: "Brief project description"
 Your project content goes here...
 
 # Adding Images
-<OptimizedImage
-  src="/images/project-screenshot.jpg"
-  alt="Project screenshot"
-  width={800}
-  height={600}
-  caption="Optimized image with WebP/AVIF support"
-/>
+<img src="/images/project-screenshot.jpg" alt="Project screenshot" />
 
 # Adding Galleries
 <Gallery
@@ -98,21 +92,8 @@ Your project content goes here...
 Monograph includes automatic image optimization with modern formats and responsive sizing:
 
 **Single Images:**
-```astro
-import OptimizedImage from '../components/OptimizedImage.astro';
-
-<OptimizedImage
-  src="/images/hero.jpg"
-  alt="Hero image"
-  width={1200}
-  height={800}
-  quality={85}
-  format="webp"
-  sizes="(max-width: 768px) 100vw, 75vw"
-  widths={[400, 800, 1200]}
-  caption="Automatically optimized"
-  loading="eager"
-/>
+```html
+<img src="/images/hero.jpg" alt="Hero image" />
 ```
 
 **Interactive Galleries:**
@@ -247,7 +228,7 @@ src/
 1. **Update site configuration** - Don't forget `src/config/site.ts`!
 2. **Delete documentation projects** - Remove all `00-`, `01-`, etc. files
 3. **Add your OG image** - Create `/public/og-image.png` (1200x630px)
-4. **Add your images** - Use OptimizedImage and Gallery components for best performance
+4. **Add your images** - Use markdown syntax for single images, Gallery component for carousels
 5. **Optimize for performance** - Images are automatically optimized, but verify file sizes
 6. **Test locally** - Run `npm run build` to check for errors
 7. **Update domain** - Make sure your URL is correct in the config
@@ -269,15 +250,10 @@ Yes! If you prefer not to have the warning at all:
 No, the warning only appears during development (`npm run dev`). It will never show on your live website.
 
 ### How do I add optimized images?
-Use the `OptimizedImage` component instead of regular `<img>` tags. It automatically generates responsive images with lazy loading:
+Use standard markdown syntax for single images:
 
-```astro
-<OptimizedImage
-  src="/images/your-image.jpg"
-  alt="Description"
-  width={800}
-  height={600}
-/>
+```html
+<img src="/images/your-image.jpg" alt="Description" />
 ```
 
 ### What image formats are supported?
@@ -297,13 +273,20 @@ Galleries are interactive with touch/swipe support, keyboard navigation, and ima
 Yes! You can control quality, formats, sizes, and loading behavior through component props:
 
 ```astro
-<OptimizedImage
-  quality={90}        // 1-100 quality setting
-  format="webp"       // Preferred format
-  loading="eager"     // Load immediately
-  sizes="100vw"       // Responsive sizing
-  widths={[400,800,1200]} // Breakpoints
+For single images, use HTML img tags:
+```html
+<img src="/images/image.jpg" alt="Alt text" />
+```
+
+For image carousels, use the Gallery component:
+```astro
+<Gallery
+  images={[
+    { src: "/images/img1.jpg", alt: "Description 1" },
+    { src: "/images/img2.jpg", alt: "Description 2" }
+  ]}
 />
+```
 ```
 
 ## Need Help?

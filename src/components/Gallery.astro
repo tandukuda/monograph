@@ -1,6 +1,4 @@
 ---
-import OptimizedImage from './OptimizedImage.astro';
-
 export interface Props {
   images: {
     src: string;
@@ -30,18 +28,21 @@ const galleryId = `gallery-${Math.random().toString(36).substr(2, 9)}`;
 <div class={`gallery-wrapper ${className}`}>
   <div class="gallery" id={galleryId} style={`height: ${height}`}>
     {images.map((image, index) => (
-      <OptimizedImage
-        src={image.src}
-        alt={image.alt}
-        caption={image.caption}
-        width={image.width || 1200}
-        height={image.height}
-        loading={index === 0 ? 'eager' : loading}
-        quality={quality}
-        sizes="100vw"
-        widths={[600, 900, 1200, 1600]}
-        class="gallery-image"
-      />
+      <figure class="image-figure gallery-image">
+        <img
+          src={image.src}
+          alt={image.alt}
+          width={image.width || 1200}
+          height={image.height}
+          loading={index === 0 ? 'eager' : loading}
+          class="gallery-img"
+        />
+        {image.caption && (
+          <figcaption class="image-caption">
+            {image.caption}
+          </figcaption>
+        )}
+      </figure>
     ))}
   </div>
 
@@ -199,7 +200,7 @@ const galleryId = `gallery-${Math.random().toString(36).substr(2, 9)}`;
     position: relative;
   }
 
-  .gallery :global(.optimized-image) {
+  .gallery :global(.gallery-img) {
     width: 100%;
     height: 100%;
     object-fit: contain;
@@ -271,7 +272,7 @@ const galleryId = `gallery-${Math.random().toString(36).substr(2, 9)}`;
   }
 
   /* Loading states */
-  .gallery :global(.optimized-image[loading="lazy"]) {
+  .gallery :global(.gallery-img[loading="lazy"]) {
     background: var(--border-color);
     animation: pulse 2s infinite;
   }

@@ -32,7 +32,7 @@ Before deploying your Monograph portfolio, complete this checklist to ensure eve
 - [ ] Created custom `/public/og-image.png` (1200x630px recommended)
 - [ ] Updated `/public/favicon.svg` with your favicon
 - [ ] Added project images to `/public/images/` directory
-- [ ] Used `OptimizedImage` and `Gallery` components for responsive images
+- [ ] Used HTML img tags for single images and `Gallery` component for carousels
 - [ ] Verified image formats (JPG, PNG, WebP supported)
 
 ## Optional Customization
@@ -45,7 +45,7 @@ Before deploying your Monograph portfolio, complete this checklist to ensure eve
 - [ ] Tested layout consistency across all pages
 
 ### Image Optimization
-- [ ] Implemented `OptimizedImage` component for single images
+- [ ] Used HTML img tags for single images
 - [ ] Used `Gallery` component for image carousels
 - [ ] Configured image quality settings (75-95% recommended)
 - [ ] Set up responsive breakpoints for different devices
@@ -128,7 +128,7 @@ Before deploying your Monograph portfolio, complete this checklist to ensure eve
 
 1. **Remove Demo Content**: Delete all documentation projects (00-, 01-, etc. files)
 2. **Final Configuration**: Ensure `src/config/site.ts` has your real information
-3. **Image Optimization**: Verify all images use OptimizedImage or Gallery components
+3. **Image Optimization**: Verify single images use HTML img tags, carousels use Gallery component
 4. **Performance Check**: Test Core Web Vitals and image loading speeds
 5. **Environment Check**: Ensure no development warnings appear in production
 6. **Social Media**: Test how your site appears when shared on social platforms
@@ -159,7 +159,7 @@ npm run preview
 - Check that all markdown files have proper frontmatter
 - Verify image paths are correct (use `/images/` for public folder)
 - Ensure site.ts configuration is valid TypeScript
-- Confirm OptimizedImage and Gallery components are imported correctly
+- Confirm Gallery components are imported correctly for carousels
 
 **Image issues?**
 - Verify images exist in `/public/images/` directory

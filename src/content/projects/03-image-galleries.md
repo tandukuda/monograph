@@ -12,22 +12,12 @@ role: ["Developer"]
 
 Monograph includes powerful image optimization with responsive images, lazy loading, and smooth galleries.
 
-## Single Optimized Images
+## Single Images
 
-For individual images, use the `OptimizedImage` component:
+For individual images, use HTML img tags:
 
-```astro
----
-import OptimizedImage from '../components/OptimizedImage.astro';
----
-
-<OptimizedImage
-  src="/images/your-image.jpg"
-  alt="Description of your image"
-  width={800}
-  height={600}
-  caption="Optional image caption"
-/>
+```html
+<img src="/images/your-image.jpg" alt="Description of your image" />
 ```
 
 ## Image Galleries
@@ -64,13 +54,12 @@ import Gallery from '../components/Gallery.astro';
 
 ## Component Features
 
-### OptimizedImage
-- **Responsive images** - Multiple sizes for different screens
-- **Modern formats** - WebP and AVIF support with fallbacks
-- **Lazy loading** - Images load when needed
-- **Smooth transitions** - Fade-in animations
-- **Captions** - Optional figure captions
-- **SEO optimized** - Proper alt text and structured markup
+### HTML Images
+- **Simple syntax** - Standard HTML img tags
+- **Automatic optimization** - Astro optimizes images at build time
+- **Responsive** - Images scale to container width
+- **Accessible** - Proper alt text support
+- **More control** - Full access to HTML attributes
 
 ### Gallery
 - **Touch-friendly** - Swipe gestures on mobile
@@ -82,22 +71,15 @@ import Gallery from '../components/Gallery.astro';
 
 ## Advanced Options
 
-### Image Component Props
+### HTML Image Syntax
 
-```astro
-<OptimizedImage
-  src="/images/hero.jpg"
-  alt="Hero image"
-  width={1200}          // Max width
-  height={800}          // Max height
-  loading="eager"       // or "lazy" (default)
-  quality={85}          // 1-100, default 80
-  format="webp"         // or "avif", "png", "jpg"
-  sizes="(max-width: 768px) 100vw, 50vw"
-  widths={[400, 800, 1200]}  // Responsive breakpoints
-  caption="Image caption"
-  class="custom-class"
-/>
+```html
+<img src="/images/hero.jpg" alt="Alt text" />
+
+<!-- For linked images -->
+<a href="/images/full-size.jpg">
+  <img src="/images/thumbnail.jpg" alt="Alt text" />
+</a>
 ```
 
 ### Gallery Component Props
@@ -170,22 +152,15 @@ public/
 
 ## Migration from Old Galleries
 
-Replace old HTML galleries:
+Replace old approaches:
 
+**For single images, use HTML img tags:**
 ```html
-<!-- Old way -->
-<div class="gallery-wrapper">
-  <div class="gallery">
-    <img src="/images/img1.jpg" alt="Image" />
-    <img src="/images/img2.jpg" alt="Image" />
-  </div>
-</div>
+<img src="/images/image.jpg" alt="Detailed description" />
 ```
 
-With new optimized component:
-
+**For galleries, use the Gallery component:**
 ```astro
-<!-- New way -->
 <Gallery
   images={[
     { src: "/images/img1.jpg", alt: "Detailed description" },
@@ -211,4 +186,4 @@ With new optimized component:
 - Check CSS conflicts
 - Verify responsive settings
 
-The optimized image system ensures your portfolio loads fast while looking professional across all devices!
+The combination of HTML img tags and Gallery components ensures your portfolio loads fast while looking professional across all devices!

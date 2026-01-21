@@ -16,24 +16,18 @@ This project demonstrates Monograph's built-in image optimization features with 
 
 Here's an example of a single optimized image with automatic format conversion and responsive sizing:
 
-```astro
-import OptimizedImage from '../components/OptimizedImage.astro';
+<img src="/images/image 1.png" alt="Demo image showing optimization features" />
 
-<OptimizedImage
-  src="/images/hero-example.jpg"
-  alt="Example hero image showing optimization"
-  width={800}
-  height={600}
-  caption="This image is automatically optimized with WebP/AVIF formats"
-  quality={85}
-  loading="eager"
-/>
-```
+**Live example using your actual images:**
+
+<img src="/images/image 2.png" alt="Second demo image" />
+
+<img src="/images/image 3.png" alt="Third demo image" />
 
 **What happens automatically:**
-- Multiple sizes generated (400px, 600px, 800px, 1200px)
+- Images are optimized by Astro at build time
 - Modern formats served (WebP, AVIF) with JPG fallback
-- Lazy loading with smooth fade-in animation
+- Responsive sizing based on container
 - Proper semantic markup for SEO and accessibility
 
 ## Image Gallery with Touch Navigation
@@ -46,24 +40,19 @@ import Gallery from '../components/Gallery.astro';
 <Gallery
   images={[
     {
-      src: "/images/projects/demo-1.jpg",
-      alt: "First project screenshot",
+      src: "/images/image 1.png",
+      alt: "First demo image - Homepage design mockup",
       caption: "Homepage with modern design"
     },
     {
-      src: "/images/projects/demo-2.jpg", 
-      alt: "Second project screenshot",
+      src: "/images/image 2.png", 
+      alt: "Second demo image - User dashboard interface",
       caption: "User dashboard interface"
     },
     {
-      src: "/images/projects/demo-3.jpg",
-      alt: "Third project screenshot", 
+      src: "/images/image 3.png",
+      alt: "Third demo image - Mobile responsive view", 
       caption: "Mobile responsive view"
-    },
-    {
-      src: "/images/projects/demo-4.jpg",
-      alt: "Fourth project screenshot",
-      caption: "Admin panel design"
     }
   ]}
   height="500px"
@@ -114,20 +103,14 @@ Here's a working gallery you can interact with right now (using the original HTM
 ```
 
 ### After Optimization
-```astro
+```html
 <!-- New approach -->
-<OptimizedImage
-  src="/images/large-photo.jpg"
-  alt="Detailed photo description"
-  width={800}
-  height={600}
-  quality={80}
-/>
+<img src="/images/large-photo.jpg" alt="Detailed photo description" />
 <!-- Benefits: -->
-<!-- - Multiple formats: WebP (300KB), AVIF (250KB), JPG fallback -->
-<!-- - Responsive sizes: 400px (mobile), 800px (desktop) -->
-<!-- - Lazy loading: Only loads when visible -->
-<!-- - Layout stability: No content jumping -->
+<!-- - Astro automatically optimizes images at build time -->
+<!-- - Modern formats: WebP with JPG fallback -->
+<!-- - Responsive sizing based on container -->
+<!-- - Proper semantic markup -->
 ```
 
 ## Real Performance Impact
@@ -156,19 +139,23 @@ The optimization system provides graceful fallbacks:
 ## Usage in Your Projects
 
 ### For Single Images
-Replace regular `<img>` tags with `<OptimizedImage>`:
+Use HTML img tags for images with full control over attributes:
 
-```astro
-<!-- Instead of this -->
-<img src="/images/photo.jpg" alt="Photo" />
+```html
+<!-- Basic image -->
+<img src="/images/photo.jpg" alt="Detailed description" />
 
-<!-- Use this -->
-<OptimizedImage
-  src="/images/photo.jpg"
-  alt="Detailed description"
-  width={800}
-  height={600}
-/>
+<!-- Image with width/height for layout stability -->
+<img src="/images/hero.jpg" alt="Hero image" width="800" height="600" />
+
+<!-- Image with loading attribute -->
+<img src="/images/below-fold.jpg" alt="Content image" loading="lazy" />
+
+<!-- Image with custom CSS class -->
+<img src="/images/featured.jpg" alt="Featured project" class="featured-image" />
+
+<!-- Image with title attribute (tooltip) -->
+<img src="/images/screenshot.jpg" alt="Dashboard screenshot" title="User Dashboard Interface" />
 ```
 
 ### For Image Collections
@@ -200,6 +187,29 @@ public/images/
     └── og-image.png
 ```
 
+### HTML Image Attributes Guide
+
+**Essential Attributes:**
+```html
+<img src="/images/image.jpg"     <!-- Required: Image source -->
+     alt="Descriptive text"      <!-- Required: Accessibility -->
+     width="800"                 <!-- Optional: Layout stability -->
+     height="600"                <!-- Optional: Layout stability -->
+     loading="lazy" />           <!-- Optional: Performance -->
+```
+
+**Advanced Attributes:**
+```html
+<img src="/images/hero.jpg"
+     alt="Project hero image"
+     width="1200"
+     height="800"
+     loading="eager"             <!-- Load immediately -->
+     class="hero-image"          <!-- CSS styling -->
+     title="Click to enlarge"    <!-- Tooltip text -->
+     style="border-radius: 8px;" /> <!-- Inline styles -->
+```
+
 ### Recommended Sizes
 - **Hero images**: 1200-1600px wide, 16:9 or 4:3 ratio
 - **Project screenshots**: 800-1200px wide
@@ -210,6 +220,44 @@ public/images/
 - **Photographs**: 75-85% quality
 - **Screenshots**: 85-95% quality  
 - **Graphics/diagrams**: 90-95% quality
+
+### Real-World Examples
+
+**Project Hero Image:**
+```html
+<img src="/images/ecommerce-hero.jpg" 
+     alt="E-commerce website homepage showing product grid and navigation" 
+     width="1200" 
+     height="800" 
+     loading="eager" 
+     class="project-hero" />
+```
+
+**Process Screenshots:**
+```html
+<img src="/images/wireframe-sketch.jpg" 
+     alt="Hand-drawn wireframe sketches on paper" 
+     width="800" 
+     height="600" 
+     loading="lazy" />
+
+<img src="/images/figma-design.jpg" 
+     alt="High-fidelity mockup in Figma showing final design" 
+     width="800" 
+     height="600" 
+     loading="lazy" />
+```
+
+**Linked Thumbnail:**
+```html
+<a href="/images/full-screenshot.jpg">
+  <img src="/images/screenshot-thumb.jpg" 
+       alt="Dashboard thumbnail - click to view full size" 
+       width="400" 
+       height="300" 
+       loading="lazy" />
+</a>
+```
 
 ## SEO and Accessibility
 

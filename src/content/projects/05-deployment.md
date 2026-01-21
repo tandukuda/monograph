@@ -107,7 +107,7 @@ After deployment with your custom domain:
 ### Images & Assets
 - [ ] **Create OG image** - Add `/public/og-image.png` (1200x630px)
 - [ ] **Add project images** - Use `/public/images/` directory
-- [ ] **Use optimized components** - Replace `<img>` with `<OptimizedImage>`
+- [ ] **Use HTML img tags** - Standard HTML img tags for single images
 - [ ] **Add galleries** - Use `<Gallery>` component for image carousels
 
 ### Performance & SEO
