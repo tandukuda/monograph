@@ -2,39 +2,50 @@
 title: "Welcome to Monograph"
 type: "Documentation"
 year: "2026"
-tags: ["guide", "setup"]
+tags: ["guide", "setup", "getting-started"]
 link: "https://github.com/tandukuda/monograph"
-description: "Getting started with your Monograph portfolio"
-medium: ["Docs"]
+description: "Complete guide to setting up your Monograph portfolio"
+medium: ["docs"]
 role: ["Developer"]
 ---
 
 # Welcome to Monograph
 
-This is your portfolio index. Each entry you see here is a project stored in `src/content/projects/`. 
-
 Monograph is a **minimalist, editorial index-style portfolio** that treats your work as a permanent archive, not a visual performance.
 
-## Important: Read the Setup Guide First!
+Each entry in this index is a project stored in `src/content/projects/`. This welcome guide will help you configure Monograph and make it your own.
 
-**Before you do anything else**, read the **Setup Guide** project in this index. It contains essential configuration steps that must be completed before deploying your site.
 
-## Quick Start (5 Minutes)
+## What You're Looking At
 
-### 1. Configure Your Site
-**Most important step!** Edit `src/config/site.ts`:
+**Desktop Layout (3 columns):**
+- **Left:** Project index with search
+- **Center:** Main content (you're reading this)
+- **Right:** Your CV/contact info
+
+**Mobile Layout:**
+- Content-first reading experience
+- **Burger menu (☰)** in top-right for navigation
+- Tap to access project list + search
+
+
+## Quick Setup (10 Minutes)
+
+### Step 1: Configure Your Site ⭐ MOST IMPORTANT
+
+Edit `src/config/site.ts` - this is your **single source** for all site settings:
 
 ```typescript
 export const siteConfig: SiteConfig = {
-  name: "Your Portfolio Name",
-  title: "Your Name",
-  description: "Your portfolio description",
-  url: "https://yoursite.com", // Your actual domain
+  name: "Your Portfolio Name",        // ← Change this
+  title: "Your Name",                 // ← Change this
+  description: "Your description",    // ← Change this
+  url: "https://yoursite.com",       // ← Your actual domain
   author: {
-    name: "Your Name",
-    email: "your@email.com",
-    twitter: "@yourusername",
-    github: "yourusername",
+    name: "Your Name",               // ← Change this
+    email: "your@email.com",         // ← Optional
+    twitter: "@yourusername",        // ← Optional
+    github: "yourusername",          // ← Optional
   },
   nav: [
     { label: "index", href: "/" },
@@ -49,24 +60,33 @@ export const siteConfig: SiteConfig = {
 };
 ```
 
-### 2. Delete Demo Content
-Remove all documentation projects (including this one):
-- `00-setup-guide.md`
-- `01-welcome-to-monograph.md`
-- `02-adding-projects.md`
-- `03-image-galleries.md`
-- `04-customization.md`
-- `05-deployment.md`
+**Why this matters:**
+- All meta tags pull from here
+- Navigation menu pulls from here
+- SEO settings pull from here
+- One file to update = less work!
 
-### 3. Update Your Content
-Edit these files with your information:
-- `src/content/pages/home.md` - Your homepage bio
-- `src/content/pages/cv.md` - Your CV/contact info
-- `src/content/pages/about.md` - About page content
-- `src/content/pages/links.md` - Social media links
+### Step 2: Update Your Content Pages
 
-### 4. Add Your Projects
-Create `.md` files in `src/content/projects/`:
+Edit these files in `src/content/pages/`:
+- `home.md` - Your homepage bio/introduction
+- `cv.md` - Your CV and contact info (shows in right column)
+- `about.md` - Your about page content
+- `links.md` - Your social media links (optional)
+
+### Step 3: Delete Demo Projects
+
+Remove all documentation projects from `src/content/projects/`:
+- `00-welcome-to-monograph.md` (this file)
+- `01-adding-projects.md`
+- `02-image-galleries.md`
+- `03-customization.md`
+- `04-deployment.md`
+- `05-visual-preview.md`
+
+### Step 4: Add Your Projects
+
+Create `.md` files in `src/content/projects/` with this structure:
 
 ```markdown
 ---
@@ -97,82 +117,130 @@ Your project content goes here...
 />
 ```
 
-## What You're Looking At
+### Step 5: Add Your Images
 
-**Three-Column Layout:**
-- **Left Column (Desktop):** Project index with search
-- **Center Column:** Main content (you're reading this)
-- **Right Column:** Your CV/contact info
+1. Place images in `/public/images/`
+2. **Optimize them first!** Use:
+   - [TinyPNG](https://tinypng.com/) - Easy drag-and-drop
+   - [Squoosh](https://squoosh.app/) - Google's optimizer
+   - [ImageOptim](https://imageoptim.com/) - Mac batch tool
 
-**Mobile Layout:**
-- Clean, stacked content
-- **Burger menu (☰)** in top-right for project navigation
-- Search included in burger menu
-- Content-first reading experience
-
-## Latest Features (V1.0.0)
-
-### Core Features
-- **Centralized Configuration** - Single `src/config/site.ts` file for all settings
-- **Mobile Burger Menu** - Professional slide-in navigation for mobile
-- **Interactive Galleries** - Touch/swipe navigation with keyboard support
-- **Client-side Search** - Real-time project filtering (configurable)
-- **Dark/Light Mode** - Automatic based on system preferences
-- **Print Stylesheet** - Optimized for PDF export
-- **SEO Optimized** - Meta tags, sitemap, robots.txt included
-- **Accessibility First** - WCAG 2.1 AA compliant
-
-### Mobile Navigation (New!)
-On mobile devices (<1024px width):
-- Fixed burger menu button in top-right corner
-- Tap to open slide-in menu with project list
-- Includes search functionality (if enabled)
-- Close by tapping X, outside menu, or pressing Escape
-- Professional mobile-first experience
-
-### Development Warning
-An orange warning appears in development when using placeholder config values. This helps prevent accidental deployment with demo data.
-
-**The warning automatically disappears** once you update `src/config/site.ts` with your information.
-
-**To remove it completely** (optional):
-1. Delete `src/components/DevWarning.astro`
-2. Remove import/usage from `src/layouts/ThreeColumnLayout.astro`
-
-## Image Handling
-
-### Single Images
-Use standard HTML img tags:
-
-```html
-<img src="/images/project-screenshot.jpg" alt="Detailed description" />
-```
-
-**Important:** Optimize images before uploading! Use tools like:
-- [TinyPNG](https://tinypng.com/) - Easy drag-and-drop
-- [Squoosh](https://squoosh.app/) - Google's web optimizer
-- [ImageOptim](https://imageoptim.com/) - Mac batch processing
-
-**Recommended sizes:**
+**Target sizes:**
 - Hero images: 1200-1600px wide, <500KB
 - Gallery images: 800-1200px wide, <300KB
 - Thumbnails: 400-600px wide, <150KB
 
+### Step 6: Create Your OG Image
+
+Create `/public/og-image.png` (1200x630px) for social media previews when your site is shared.
+
+### Step 7: Update robots.txt
+
+Edit `public/robots.txt` and change the Sitemap URL to your actual domain:
+
+```txt
+Sitemap: https://yourdomain.com/sitemap.xml
+```
+
+
+## Features Overview
+
+### What Monograph Does ✅
+
+**Layout & Navigation:**
+- Three-column editorial layout (desktop)
+- Mobile burger menu navigation (☰)
+- Centralized configuration system
+- Client-side search (optional)
+- Markdown-based content
+
+**Images & Media:**
+- Interactive galleries with touch/swipe navigation
+- Keyboard navigation (arrow keys)
+- Image counter (1/5, 2/5, etc.)
+- Optional captions on hover
+- Responsive image display
+
+**User Experience:**
+- Dark/light mode (automatic, based on system)
+- Print stylesheet (PDF export ready)
+- Fast static generation
+- Progressive enhancement (works without JS)
+
+**SEO & Accessibility:**
+- Meta tags (Open Graph, Twitter Cards)
+- Dynamic sitemap at `/sitemap.xml`
+- Robots.txt for search engines
+- WCAG 2.1 AA compliant
+- Keyboard navigable
+
+**Developer Experience:**
+- Development warning (alerts placeholder config)
+- Type-safe content (Zod schemas)
+- Hot reload during development
+- Clear error messages
+
+### What Monograph Doesn't Do ❌
+
+- **No automatic image optimization** - You must optimize images manually before uploading
+- **No advanced search** - Basic string matching only (no fuzzy search or highlighting)
+- **No CMS** - Intentionally avoided for simplicity and control
+- **No built-in analytics** - Configurable but not included by default
+
+### Planned for Future Releases
+
+- Automatic WebP/AVIF image conversion
+- Advanced search with fuzzy matching
+- Tag-based filtering
+- More customization options
+- Plugin system
+
+See [CHANGELOG.md](https://github.com/tandukuda/monograph/blob/main/CHANGELOG.md) for roadmap.
+
+
+## Mobile Navigation
+
+On mobile devices (<1024px width):
+
+**How it works:**
+1. Burger button (☰) fixed in top-right corner
+2. Tap to open slide-in menu from right
+3. Menu includes search (if enabled) + full project list
+4. Close by tapping X, outside menu, or pressing Escape
+
+**Benefits:**
+- Navigation always accessible from any scroll position
+- Content remains primary focus (not interrupted)
+- Industry-standard pattern users expect
+- Professional mobile experience
+
+
+## Using Images & Galleries
+
+### Single Images
+
+Use standard HTML img tags:
+
+```html
+<img src="/images/project-screenshot.jpg" alt="Detailed description for accessibility" />
+```
+
 ### Image Galleries
-For interactive carousels with navigation:
+
+For interactive carousels:
 
 ```astro
 import Gallery from '../components/Gallery.astro';
 
 <Gallery
   images={[
-    {
-      src: "/images/step-1.jpg",
+    { 
+      src: "/images/step-1.jpg", 
       alt: "Process step 1",
       caption: "Initial design"
     },
-    {
-      src: "/images/step-2.jpg",
+    { 
+      src: "/images/step-2.jpg", 
       alt: "Process step 2",
       caption: "Development"
     }
@@ -181,13 +249,122 @@ import Gallery from '../components/Gallery.astro';
 />
 ```
 
-**Gallery Features:**
-- Touch/swipe navigation on mobile
-- Keyboard arrow keys on desktop
-- Image counter (shows 1/5, 2/5, etc.)
-- Optional captions on hover
-- Smooth scroll transitions
-- Lazy loading for performance
+**Gallery features:**
+- Touch/swipe on mobile
+- Arrow buttons on desktop
+- Keyboard arrow keys
+- Image counter
+- Optional captions (on hover)
+- Smooth transitions
+
+**When to use:**
+- Multiple screenshots of same project
+- Process documentation (step 1, 2, 3)
+- Design iterations
+- Before/after comparisons
+
+See the **Visual Preview** documentation project for live examples.
+
+
+## Customization
+
+### Colors & Typography
+
+Edit `src/styles/global.css`:
+
+```css
+:root {
+  --font-main: "Your Font", monospace;
+  --bg-color: #ffffff;
+  --text-primary: #000000;
+  --text-secondary: #666666;
+  --border-color: #cccccc;
+}
+```
+
+### Feature Toggles
+
+Edit `src/config/site.ts`:
+
+```typescript
+features: {
+  search: true,     // Enable/disable search
+  darkMode: true,   // Enable/disable dark mode
+  analytics: "",    // Google Analytics ID
+}
+```
+
+### Navigation Menu
+
+Edit `src/config/site.ts`:
+
+```typescript
+nav: [
+  { label: "home", href: "/" },
+  { label: "work", href: "/work" },
+  { label: "contact", href: "/contact" },
+  // Add more as needed
+]
+```
+
+For more customization options, see the **Customization Guide** documentation project.
+
+
+## Development Warning
+
+An orange warning box appears in development when using placeholder configuration values (like the demo URL or "tandukuda" as author name).
+
+**The warning automatically disappears** once you update multiple fields in `src/config/site.ts`.
+
+**To remove it completely** (optional):
+1. Delete `src/components/DevWarning.astro`
+2. Remove import/usage from `src/layouts/ThreeColumnLayout.astro`
+
+The warning only appears in development mode and **never shows in production**.
+
+
+## Before You Deploy
+
+### Essential Checklist
+
+- [ ] Update `src/config/site.ts` with your information
+- [ ] Delete all documentation projects (00-, 01-, etc.)
+- [ ] Add your projects to `src/content/projects/`
+- [ ] Update content pages (`home.md`, `cv.md`, `about.md`)
+- [ ] Create `/public/og-image.png` (1200x630px)
+- [ ] Optimize all images before uploading
+- [ ] Update `public/robots.txt` with your domain
+- [ ] Run `npm run build` successfully
+
+### Testing Checklist
+
+**Desktop:**
+- [ ] All pages load correctly
+- [ ] Search works (if enabled)
+- [ ] Project navigation works
+- [ ] Galleries work (arrow buttons + keyboard)
+- [ ] Dev warning disappears with custom config
+
+**Mobile:**
+- [ ] Burger menu (☰) shows in top-right
+- [ ] Tap burger → menu slides in
+- [ ] Search works in menu (if enabled)
+- [ ] Tap project → closes menu and navigates
+- [ ] Tap outside or X → closes menu
+- [ ] Gallery swipe works
+
+**SEO:**
+- [ ] Visit `/sitemap.xml` → shows sitemap
+- [ ] Visit `/robots.txt` → shows directives
+- [ ] View page source → meta tags present
+
+**Print:**
+- [ ] Press Cmd/Ctrl+P
+- [ ] Preview looks clean (single column)
+- [ ] No interactive elements visible
+
+For the complete checklist, see [SETUP.md](https://github.com/tandukuda/monograph/blob/main/SETUP.md).
+
 
 ## File Structure
 
@@ -195,155 +372,102 @@ import Gallery from '../components/Gallery.astro';
 monograph/
 ├── public/
 │   ├── images/          ← Your project images
-│   ├── og-image.png     ← Social media preview (1200x630px)
+│   ├── og-image.png     ← Social preview (1200x630px)
 │   ├── favicon.svg      ← Your favicon
-│   └── robots.txt       ← SEO (update with your domain)
+│   └── robots.txt       ← Update with your domain
 ├── src/
 │   ├── config/
-│   │   └── site.ts      ← MAIN CONFIGURATION FILE
+│   │   └── site.ts      ← ⭐ MAIN CONFIG (edit first!)
 │   ├── content/
 │   │   ├── pages/
-│   │   │   ├── home.md  ← Homepage bio
-│   │   │   ├── cv.md    ← Right sidebar CV
-│   │   │   └── about.md ← About page
+│   │   │   ├── home.md      ← Homepage bio
+│   │   │   ├── cv.md        ← Right sidebar CV
+│   │   │   ├── about.md     ← About page
+│   │   │   └── links.md     ← Social links
 │   │   └── projects/
-│   │       └── *.md     ← Your projects
+│   │       └── *.md         ← Your projects
 │   ├── components/
 │   │   ├── Gallery.astro      ← Image carousel
 │   │   ├── MobileMenu.astro   ← Burger menu
 │   │   └── ...
 │   └── styles/
-│       ├── global.css   ← Main styles
-│       └── print.css    ← Print optimization
+│       ├── global.css     ← Main styles
+│       └── print.css      ← Print optimization
 ├── CHANGELOG.md         ← Version history
-├── SETUP.md            ← Pre-deployment checklist
-└── README.md           ← Project documentation
+├── SETUP.md            ← Complete checklist
+└── README.md           ← Project docs
 ```
+
+
+## FAQ
+
+### What is the orange warning box?
+
+Development warning that appears when using placeholder config values. It automatically disappears when you update `src/config/site.ts` with your information.
+
+### How do I make the warning disappear?
+
+Update **multiple** fields in `src/config/site.ts` (url, author name, description). The warning uses smart detection - it won't disappear if only one field is changed.
+
+### Does the warning appear in production?
+
+No, the warning **only appears in development mode** (`npm run dev`). It will never show on your live website.
+
+### How do I add images?
+
+1. Place images in `/public/images/`
+2. Optimize with TinyPNG, Squoosh, or ImageOptim
+3. Use: `<img src="/images/your-image.jpg" alt="Description" />`
+
+### Should I optimize images myself?
+
+Yes! Monograph serves images directly, so you should optimize them before uploading. Target: <500KB for hero images, <300KB for gallery images.
+
+### What image formats are supported?
+
+Standard web formats: JPG, PNG, GIF, WebP, SVG. WebP is recommended for best quality/size ratio.
+
+### How do galleries work?
+
+Use the Gallery component for interactive carousels with touch/swipe navigation. See the **Image Galleries** documentation project for examples.
+
+### How do I customize colors?
+
+Edit CSS variables in `src/styles/global.css`. Change `--bg-color`, `--text-primary`, etc.
+
+### Can I disable search?
+
+Yes! Set `features.search: false` in `src/config/site.ts`.
+
+### Where is the mobile project list?
+
+On mobile (<1024px), the project list is in the burger menu (☰) in the top-right corner instead of showing inline.
+
 
 ## Next Steps
 
-**Read the documentation projects** below to learn about:
+**Read the other documentation projects** in this index:
 
-1. **Setup Guide** - Essential configuration steps
-2. **Adding Projects** - Content structure and frontmatter
+1. ✅ **Welcome to Monograph** (you are here)
+2. **Adding Projects** - Content structure and frontmatter details
 3. **Image Galleries** - Interactive carousels and image handling
-4. **Customization Guide** - Colors, typography, feature toggles
-5. **Deployment** - Going live with Vercel, Netlify, or GitHub Pages
+4. **Visual Preview** - See images and galleries in action
+5. **Customization Guide** - Advanced styling and feature toggles
+6. **Deployment** - Going live with Vercel, Netlify, or GitHub Pages
 
-## Before You Deploy
+**When ready to deploy:**
+- Follow the complete [Setup Checklist](https://github.com/tandukuda/monograph/blob/main/SETUP.md)
+- Delete all documentation projects
+- Test everything thoroughly
+- Deploy with confidence!
 
-**Complete checklist** (see SETUP.md for full details):
-
-Essential:
-- [ ] Update `src/config/site.ts` with your information
-- [ ] Delete all documentation projects (00-, 01-, etc.)
-- [ ] Add your projects to `src/content/projects/`
-- [ ] Create `/public/og-image.png` (1200x630px)
-- [ ] Optimize all images before uploading
-- [ ] Update `public/robots.txt` with your domain
-- [ ] Test mobile burger menu functionality
-- [ ] Run `npm run build` successfully
-
-Testing:
-- [ ] Test on mobile device (burger menu works)
-- [ ] Test search functionality (if enabled)
-- [ ] Test image galleries (touch/keyboard navigation)
-- [ ] Test print preview (Cmd/Ctrl+P)
-- [ ] Verify sitemap at `/sitemap.xml`
-- [ ] Run Lighthouse audit (aim for 95+)
-
-## Features Overview
-
-### What Monograph Does
-- Three-column editorial layout (desktop)
-- Mobile-optimized with burger menu navigation
-- Markdown-based content management
-- Interactive image galleries
-- Client-side search (optional)
-- Dark/light mode (automatic)
-- Print stylesheet included
-- SEO ready (meta tags, sitemap, robots.txt)
-- Accessibility compliant (WCAG 2.1 AA)
-- Fast static generation
-- Zero-config deployment
-
-### What Monograph Doesn't Do (Yet)
-- Automatic image optimization (manual optimization required)
-- Advanced search (fuzzy matching, highlighting)
-- CMS integration (intentionally avoided)
-- Analytics built-in (but configurable)
-- Comments or social features (static site)
-
-### Planned Features (Future Releases)
-- Automatic WebP/AVIF image conversion
-- Advanced search with fuzzy matching
-- Tag-based filtering
-- More customization options
-- Plugin system for extensions
-
-## Performance & Accessibility
-
-### Performance
-- **Fast static HTML** - No JavaScript required for core content
-- **Lazy loading** - Images load as needed
-- **Minimal CSS** - No frameworks, custom design system
-- **Print optimized** - Clean PDF export
-
-### Accessibility
-- **Screen reader compatible** - Proper semantic HTML
-- **Keyboard navigable** - Full site usable without mouse
-- **High contrast support** - Respects user preferences
-- **Reduced motion** - Honors prefers-reduced-motion
-- **ARIA labels** - Proper accessibility attributes
-
-### SEO
-- **Meta tags** - Open Graph, Twitter Cards
-- **Sitemap** - Auto-generated at `/sitemap.xml`
-- **Robots.txt** - Search engine directives
-- **Semantic HTML** - Proper heading structure
-- **Fast loading** - Good Core Web Vitals
-
-## Philosophy
-
-Monograph is built on these principles:
-
-1. **Index before imagery** - Projects are listed and contextualized before they are seen
-2. **Metadata is interface** - Year, role, medium, context always visible
-3. **Claims over descriptions** - Each project begins with an argument, not a summary
-4. **Permanence over performance** - Portfolio is an archive, not a feed
-
-These aren't just design choices - they're the foundation of the system.
 
 ## Support & Resources
 
-- **GitHub Repository:** [https://github.com/tandukuda/monograph](https://github.com/tandukuda/monograph)
-- **Issues/Bugs:** [GitHub Issues](https://github.com/tandukuda/monograph/issues)
-- **Documentation:** You're reading it (in-app docs)
-- **Changelog:** See [CHANGELOG.md](https://github.com/tandukuda/monograph/blob/main/CHANGELOG.md) for version history
-- **Setup Guide:** See [SETUP.md](https://github.com/tandukuda/monograph/blob/main/SETUP.md) for complete checklist
+- **GitHub:** [https://github.com/tandukuda/monograph](https://github.com/tandukuda/monograph)
+- **Issues:** [Report bugs](https://github.com/tandukuda/monograph/issues)
+- **Changelog:** [Version history](https://github.com/tandukuda/monograph/blob/main/CHANGELOG.md)
+- **Astro Docs:** [docs.astro.build](https://docs.astro.build)
 
-## Need Help?
 
-1. **Read other documentation projects** in this index
-2. **Check SETUP.md** for deployment checklist
-3. **Review CHANGELOG.md** for known issues
-4. **File a GitHub issue** with detailed description
-5. **Check Astro docs** at [docs.astro.build](https://docs.astro.build)
-
-## Contributing
-
-Monograph is intentionally opinionated. Contributions that align with its philosophy are welcome:
-- Bug fixes
-- Documentation improvements
-- Accessibility enhancements
-- Performance optimizations
-
-Changes that contradict the editorial stance should be forks, not PRs.
-
----
-
-**Ready to make Monograph yours?**
-
-Start with the **Setup Guide** project, then work through the other documentation. Delete these docs when you're ready to deploy.
-
-Good luck! 🚀
+**Ready to make Monograph yours?** Start by updating `src/config/site.ts`, then work through the documentation projects. Good luck! 🚀
