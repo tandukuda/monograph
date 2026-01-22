@@ -131,39 +131,69 @@ const ogImageURL = getOGImageURL();
         </main>
 
         <script is:inline>
-            // 1. SEARCH LOGIC
-            const searchInput = document.getElementById("search");
-            const projectList = document.getElementById("project-list");
-            const noResults = document.getElementById("no-results");
+            // 1. SEARCH LOGIC - Works for both desktop sidebar and mobile menu
+            function initializeSearch() {
+                // Get ALL search inputs and project lists (desktop + mobile)
+                const searchInputs = document.querySelectorAll('#search');
+                const projectLists = document.querySelectorAll('#project-list');
 
-            if (searchInput && projectList) {
-                const items = Array.from(
-                    projectList.getElementsByTagName("li"),
-                );
-                searchInput.addEventListener("input", (e) => {
-                    const term = (
-                        e.target
-                    ).value.toLowerCase();
-                    let visibleCount = 0;
-                    items.forEach((item) => {
-                        const title = item.getAttribute("data-title") || "";
-                        const tags = item.getAttribute("data-tags") || "";
-                        const year = item.getAttribute("data-year") || "";
-                        if (
-                            title.includes(term) ||
-                            tags.includes(term) ||
-                            year.includes(term)
-                        ) {
-                            item.style.display = "block";
-                            visibleCount++;
-                        } else {
-                            item.style.display = "none";
+                if (searchInputs.length === 0 || projectLists.length === 0) return;
+
+                // Function to filter projects
+                function filterProjects(searchTerm) {
+                    const term = searchTerm.toLowerCase();
+
+                    // Filter ALL project lists (desktop + mobile)
+                    projectLists.forEach((projectList) => {
+                        const items = Array.from(projectList.getElementsByTagName('li'));
+                        let visibleCount = 0;
+
+                        items.forEach((item) => {
+                            const title = item.getAttribute('data-title') || '';
+                            const tags = item.getAttribute('data-tags') || '';
+                            const year = item.getAttribute('data-year') || '';
+
+                            if (
+                                title.includes(term) ||
+                                tags.includes(term) ||
+                                year.includes(term)
+                            ) {
+                                item.style.display = 'block';
+                                visibleCount++;
+                            } else {
+                                item.style.display = 'none';
+                            }
+                        });
+
+                        // Handle "no results" message for this list
+                        const noResults = projectList.nextElementSibling;
+                        if (noResults && noResults.id === 'no-results') {
+                            noResults.style.display = visibleCount === 0 ? 'block' : 'none';
                         }
                     });
-                    if (noResults)
-                        noResults.style.display =
-                            visibleCount === 0 ? "block" : "none";
+                }
+
+                // Add event listeners to ALL search inputs
+                searchInputs.forEach((searchInput) => {
+                    searchInput.addEventListener('input', (e) => {
+                        const term = e.target.value;
+                        filterProjects(term);
+
+                        // Sync search terms across all inputs
+                        searchInputs.forEach((otherInput) => {
+                            if (otherInput !== searchInput) {
+                                otherInput.value = term;
+                            }
+                        });
+                    });
                 });
+            }
+
+            // Initialize search when DOM is ready
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', initializeSearch);
+            } else {
+                initializeSearch();
             }
 
             // 2. GALLERY LOGIC
